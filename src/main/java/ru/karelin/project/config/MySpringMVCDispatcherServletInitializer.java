@@ -1,7 +1,6 @@
-package ru.karelin.spring_crud.config;
+package ru.karelin.project.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import ru.karelin.spring_crud.config.SpringConfig;
 
 public class MySpringMVCDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
