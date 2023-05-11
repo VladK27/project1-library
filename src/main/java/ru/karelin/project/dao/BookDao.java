@@ -17,11 +17,6 @@ public class BookDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Person> index(){
-        String SQL = "SELECT * FROM Person";
-        List<Person> people = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>());
 
-        return people;
-    }
 
 }

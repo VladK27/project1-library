@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Person {
+    private int id;
 
     //[A-Z]\w+; 2 <= length >= 20; not null
     private String name;

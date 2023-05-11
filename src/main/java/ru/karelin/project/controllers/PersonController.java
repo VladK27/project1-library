@@ -31,9 +31,9 @@ public class PersonController {
     //Get one person from dao and show all information
     @GetMapping("/{id}")
     public String show(Model model, @PathVariable("id")int id){
-        model.addAttribute("person", personDao.show());
+        model.addAttribute("person", personDao.show(id));
 
-        model.addAttribute("books", bookDao.showBooks(id));
+        model.addAttribute("books", bookDao.showByOwner(id));
 
         return "people/show";
     }
