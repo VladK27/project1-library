@@ -25,12 +25,25 @@ public class PersonDao {
     }
 
     public Person show(int id){
-        String SQl = String.format("SELECT * FROM Person WHERE id = %d", id);
-        Person person = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>());
+        String SQL = "SELECT * FROM Person WHERE id = " + id;
+        Person person = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<Person>())
+                .stream().findAny().orElse(new Person());
 
         return person;
     }
 
-    public
+    public void save(Person person){
+        String SQL = "INSERT INTO Person(name, surname, yearOfBirth) VALUES(?, ?, ?)";
+        jdbcTemplate.update(SQL, person.getName(), person.getSurname(), person.getYearOfBirth());
+    }
 
+    public void edit(Person person){
+        String SQL = "UPDATE Person SET name = ?, surname = ?, yearOfBirth = ? WHERE id = ?";
+        jdbcTemplate.update(SQL, person.getName(), person.getSurname(), person.getYearOfBirth(), person.getId());
+    }
+
+    public void delete(int id){
+        String SQL = "DELETE FROM Person WHERE id = " + id;
+        jdbcTemplate.update(SQL);
+    }
 }

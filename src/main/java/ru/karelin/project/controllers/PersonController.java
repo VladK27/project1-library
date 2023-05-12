@@ -52,13 +52,13 @@ public class PersonController {
 
     @GetMapping("{id}/edit")
     public String editPage(Model model, @RequestParam("id") int id){
-        model.addAttribute("person", personDao.show());
+        model.addAttribute("person", personDao.show(id));
         return "people/edit";
     }
 
     @PatchMapping("/{id}")
     public String edit(@ModelAttribute("person") Person person){
-        personDao.edit(person.getId(), person);
+        personDao.edit(person);
         return "redirect:people/{id}";
     }
 

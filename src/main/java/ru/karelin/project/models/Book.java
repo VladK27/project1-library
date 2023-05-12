@@ -19,4 +19,6 @@ public class Book {
 
     //not null; year <= 2023
     private int year;
+
+    private int owner;
 }
