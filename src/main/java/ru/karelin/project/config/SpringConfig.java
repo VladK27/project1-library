@@ -65,7 +65,6 @@ public class SpringConfig implements WebMvcConfigurer {
         dataSource.setUrl("jdbc:mysql://localhost:3306/project1");
         dataSource.setUsername("root");
         dataSource.setPassword("vlad2747");
-
         return dataSource;
     }
 

@@ -19,14 +19,14 @@ public class PersonDao {
 
     public List<Person> index(){
         String SQL = "SELECT * FROM Person";
-        List<Person> people = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>());
-
+        List<Person> people = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class));
+        System.out.println(people);
         return people;
     }
 
     public Person show(int id){
         String SQL = "SELECT * FROM Person WHERE id = " + id;
-        Person person = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<Person>())
+        Person person = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(new Person());
 
         return person;

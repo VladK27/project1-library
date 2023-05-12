@@ -21,7 +21,7 @@ public class PersonController {
     }
 
     //Get all people from dao and bring to view
-    @GetMapping("")
+    @GetMapping()
     public String index(Model model){
         model.addAttribute("people", personDao.index());
 
