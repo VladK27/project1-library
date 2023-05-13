@@ -2,9 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${person.getFullName()}"></title>
+    <style>
+        .user{
+            padding: 10px;
+            margin: auto;
+        }
+        .books{
+            margin: 10px;
+            padding: 10px;
+        }
+        .info{
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
+    <a href="/people"><button><- To main page</button></a>
+
+    <fieldset class="info">
+        <legend>Reader</legend>
+
+        <div class="user">
+        <p th:text="${person.getFullName()} + ', ' + ${person.getYearOfBirth()}">name + surname, year of birth</p>
+        </div>
+
+        <legend>Books</legend>
+        <div class="books">
+
+        <ul th:each="book : ${books}">
+            <li>
+                <a th:href="@{/books/{id}(id = ${book.getId()} )}" th:text="${book.getTitle()}">book</a>
+            </li>
+        </ul>
+
+        </div>
+    </fieldset>
 
 </body>
 </html>

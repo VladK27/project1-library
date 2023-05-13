@@ -7,8 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="FirstCRUD" />
+        <module name="project-library" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="library" target="19" />
+    </bytecodeTargetLevel>
   </component>
 </project>

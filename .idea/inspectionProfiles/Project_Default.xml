@@ -5,9 +5,9 @@
       <option name="myValues">
         <value>
           <list size="3">
-            <item index="0" class="java.lang.String" itemvalue="th:each" />
+            <item index="0" class="java.lang.String" itemvalue="th:text" />
             <item index="1" class="java.lang.String" itemvalue="th:href" />
-            <item index="2" class="java.lang.String" itemvalue="th:text" />
+            <item index="2" class="java.lang.String" itemvalue="th:each" />
           </list>
         </value>
       </option>

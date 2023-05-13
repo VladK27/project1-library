@@ -5,6 +5,25 @@
     <title>Title</title>
 </head>
 <body>
+<a href="/people"><button><- To main page</button></a>
+<fieldset>
+    <legend>Add new Reader</legend>
+    <form th:object="${person}" th:method="POST" th:action="@{/new}">
 
+        <p>
+            <label for="name">Reader name</label>
+            <input type="text" id="name" name="name" th:text="${person.getName()}">
+            <br>
+            <label for="surname">Reader name</label>
+            <input type="text" id="surname" name="surname" th:text="${person.getSurname()}">
+            <br>
+            <label for="yearOfBirth">Reader name</label>
+            <input type="text" id="yearOfBirth" name="yearOfBirth" th:text="${person.getYearOfBirth()}">
+        </p>
+        
+        <button type="submit">Submit</button>
+
+    </form>
+</fieldset>
 </body>
 </html>

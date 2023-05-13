@@ -2,9 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>New</title>
 </head>
 <body>
+<a href="/people"><button><- To main page</button></a>
+<fieldset>
+    <legend>Add new Reader</legend>
+    <form th:object="${person}" th:method="POST" th:action="@{/new}">
+
+        <p>
+            <label for="name">Reader name</label>
+            <input type="text" id="name" name="name">
+            <br>
+            <label for="surname">Reader name</label>
+            <input type="text" id="surname" name="surname">
+            <br>
+            <label for="yearOfBirth">Reader name</label>
+            <input type="text" id="yearOfBirth" name="yearOfBirth">
+        </p>
+        <button type="submit">Submit</button>
+
+    </form>
+</fieldset>
 
 </body>
 </html>

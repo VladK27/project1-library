@@ -28,9 +28,8 @@ public class PersonController {
         return "people/index";
     }
 
-    //Get one person from dao and show all information
     @GetMapping("/{id}")
-    public String show(Model model, @PathVariable("id")int id){
+    public String show(Model model, @PathVariable("id") int id){
         model.addAttribute("person", personDao.show(id));
 
         model.addAttribute("books", bookDao.showByOwner(id));
@@ -51,7 +50,7 @@ public class PersonController {
     }
 
     @GetMapping("{id}/edit")
-    public String editPage(Model model, @RequestParam("id") int id){
+    public String editPage(Model model, @PathVariable("id") int id){
         model.addAttribute("person", personDao.show(id));
         return "people/edit";
     }
@@ -63,7 +62,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@RequestParam("id") int id){
+    public String delete(@PathVariable("id") int id){
         personDao.delete(id);
         return "redirect:people";
     }
