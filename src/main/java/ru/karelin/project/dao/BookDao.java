@@ -63,7 +63,7 @@ public class BookDao {
     }
 
     public Optional<Person> show(String title) {
-        String SQL = "SELECT FROM Person WHERE title = ?";
+        String SQL = "SELECT * FROM Book WHERE title = ?";
 
         return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class), title)
                 .stream().findAny();
