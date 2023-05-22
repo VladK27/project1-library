@@ -11,6 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="FirstCRUD" target="19" />
       <module name="library" target="19" />
     </bytecodeTargetLevel>
   </component>

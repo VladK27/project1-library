@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>New</title>
+    <title>New reader</title>
 </head>
 <body>
 <a href="/people"><button><- To main page</button></a>
 <fieldset>
     <legend>Add new Reader</legend>
-    <form th:object="${person}" th:method="POST" th:action="@{/new}">
+    <form th:object="${person}" th:method="POST" th:action="@{new}">
 
         <p>
-            <label for="name">Reader name</label>
+            <label for="name">Name</label>
             <input type="text" id="name" name="name">
             <br>
-            <label for="surname">Reader name</label>
+            <label for="surname">Surname</label>
             <input type="text" id="surname" name="surname">
             <br>
-            <label for="yearOfBirth">Reader name</label>
+            <label for="yearOfBirth">Year of birth</label>
             <input type="text" id="yearOfBirth" name="yearOfBirth">
         </p>
         <button type="submit">Submit</button>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'id:' + ${book.getId} + ' Book'">book</title>
+</head>
+<body>
+  <fieldset>
+    <legend>Book information</legend>
+    <div class="info">
+      <p th:text="${book.getTitle()} + ', ' + ${book.getYear()}">title,year</p>
+      <p th:text="${book.getAuthor()}">author</p>
+    </div>
+    <hr>
+    <div >
+      <p th:if="${book.getOwner != 0}">
+        Owner: <a th:text="${ownerName}" th:href="@{/people/{id}(id = ${ownerId})}">owner name</a>
+      </p>
+
+      <p th:unless="${book.getOwner != 0}">
+        Book in library
+      </p>
+    </div>
+    <hr>
+    <a th:href="@{{id}/edit(id = ${book.getId()}) }"><button>Edit</button></a>
+
+  </fieldset>
+<form th:method="DELETE" th:action="@{#}">
+  <a><button>Delete</button></a>
+</form>
+</body>
+</html>

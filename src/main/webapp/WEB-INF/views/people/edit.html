@@ -2,27 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit reader</title>
 </head>
 <body>
-<a href="/people"><button><- To main page</button></a>
+<a th:href="@{/people/{id}(id = ${person.getId()}) }"><button><- To reader page</button></a>
 <fieldset>
-    <legend>Add new Reader</legend>
-    <form th:object="${person}" th:method="POST" th:action="@{/new}">
+    <legend>Edit reader</legend>
+    <form th:object="${person}" th:method="PATCH" th:action="@{/people/{id}(id = ${person.getId()})}">
 
-        <p>
-            <label for="name">Reader name</label>
-            <input type="text" id="name" name="name" th:text="${person.getName()}">
+        <div style="display: inline-flex; margin: 20px; justify-content: space-between">
+        <div>
+            <label for="name">Name</label>
             <br>
-            <label for="surname">Reader name</label>
-            <input type="text" id="surname" name="surname" th:text="${person.getSurname()}">
+            <label for="surname">Surname</label>
             <br>
-            <label for="yearOfBirth">Reader name</label>
-            <input type="text" id="yearOfBirth" name="yearOfBirth" th:text="${person.getYearOfBirth()}">
-        </p>
-        
+            <label for="yearOfBirth">Year of birth</label>
+        </div>
+        <div>
+            <input type="text" id="name" name="name" th:value="${person.getName()}">
+            <br>
+            <input type="text" id="surname" name="surname" th:value="${person.getSurname()}">
+            <br>
+            <input type="text" id="yearOfBirth" name="yearOfBirth" th:value="${person.getYearOfBirth()}">
+        </div>
+        </div>
+        <br>
         <button type="submit">Submit</button>
-
     </form>
 </fieldset>
 </body>

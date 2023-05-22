@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Set</title>
+</head>
+<body>
+<p><a href="/"><button><- To main page</button></a></p>
+<p>-Select book, then select reader and press Submit button. Book will set to reader.</p>
+<form th:method="PATCH" th:action="@{/books/control}">
+    <fieldset>
+    <legend>Select book</legend>
+        <select class="books" name="bookId" id="books">
+            <option th:each="book : ${books}" th:value="${book.getId()}" th:text="${book.getTitle()}">book</option>
+        </select>
+    </fieldset>
+    <fieldset>
+    <legend>Select reader</legend>
+        <select class="readers" name="personId"id="readers">
+            <option  th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}">person</option>
+        </select>
+
+    </fieldset>
+    <button type="submit">Submit</button>
+</form>
+
+
+</body>
+</html>

@@ -8,6 +8,7 @@ import ru.karelin.project.models.Book;
 import ru.karelin.project.models.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookDao {
@@ -20,14 +21,14 @@ public class BookDao {
 
     public List<Book> index(){
         String SQL = "SELECT * FROM Book";
-        List<Book> books = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>());
+        List<Book> books = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Book.class));
 
         return books;
     }
 
     public Book show(int id){
         String SQL = "SELECT * FROM Book WHERE id = " + id;
-        Book book = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<Book>())
+        Book book = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Book.class))
                 .stream().findAny().orElse(new Book());
 
         return book;
@@ -35,7 +36,7 @@ public class BookDao {
 
     public Book showByOwner(int ownerId){
         String SQL = "SELECT * FROM Book WHERE owner = " + ownerId;
-        Book book = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<Book>())
+        Book book = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Book.class))
                 .stream().findAny().orElse(new Book());
 
         return book;
@@ -54,5 +55,17 @@ public class BookDao {
     public void delete(int id){
         String SQL = "DELETE FROM Book WHERE id = " + id;
         jdbcTemplate.update(SQL);
+    }
+
+    public void setOwner(int bookId, int personId){
+        String SQL = "UPDATE Book SET owner = ? WHERE id = ?";
+        jdbcTemplate.update(SQL, personId, bookId);
+    }
+
+    public Optional<Person> show(String title) {
+        String SQL = "SELECT FROM Person WHERE title = ?";
+
+        return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class), title)
+                .stream().findAny();
     }
 }

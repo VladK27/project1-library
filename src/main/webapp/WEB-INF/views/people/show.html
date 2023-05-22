@@ -9,8 +9,7 @@
             margin: auto;
         }
         .books{
-            margin: 10px;
-            padding: 10px;
+            padding: 5px;
         }
         .info{
             margin: auto;
@@ -37,7 +36,12 @@
         </ul>
 
         </div>
+        <a th:href="@{{id}/edit (id = ${person.getId()}) }"><button>Edit</button></a>
     </fieldset>
+
+    <form th:method="DELETE" th:action="@{#}">
+        <a><button>Delete</button></a>
+    </form>
 
 </body>
 </html>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.karelin.project.models.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonDao {
@@ -17,14 +18,14 @@ public class PersonDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Person> index(){
+    public List<Person> index() {
         String SQL = "SELECT * FROM Person";
         List<Person> people = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class));
-        System.out.println(people);
+
         return people;
     }
 
-    public Person show(int id){
+    public Person show(int id) {
         String SQL = "SELECT * FROM Person WHERE id = " + id;
         Person person = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(new Person());
@@ -32,18 +33,25 @@ public class PersonDao {
         return person;
     }
 
-    public void save(Person person){
+    public void save(Person person) {
         String SQL = "INSERT INTO Person(name, surname, yearOfBirth) VALUES(?, ?, ?)";
         jdbcTemplate.update(SQL, person.getName(), person.getSurname(), person.getYearOfBirth());
     }
 
-    public void edit(Person person){
+    public void edit(Person person) {
         String SQL = "UPDATE Person SET name = ?, surname = ?, yearOfBirth = ? WHERE id = ?";
         jdbcTemplate.update(SQL, person.getName(), person.getSurname(), person.getYearOfBirth(), person.getId());
     }
 
-    public void delete(int id){
+    public void delete(int id) {
         String SQL = "DELETE FROM Person WHERE id = " + id;
         jdbcTemplate.update(SQL);
+    }
+
+    public Optional<Person> show(String name, String surname) {
+        String SQL = "SELECT FROM Person WHERE name = ? AND surname = ?";
+
+        return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class), name, surname)
+                .stream().findAny();
     }
 }
