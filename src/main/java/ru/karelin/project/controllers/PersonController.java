@@ -30,8 +30,10 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public String show(Model model, @PathVariable("id") int id){
+        if(id > personDao.getMaxId()){
+            return "pageNotFound";
+        }
         model.addAttribute("person", personDao.show(id));
-
         model.addAttribute("books", bookDao.showByOwner(id));
 
         return "people/show";

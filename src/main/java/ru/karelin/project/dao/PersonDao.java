@@ -13,19 +13,29 @@ import java.util.Optional;
 public class PersonDao {
     private final JdbcTemplate jdbcTemplate;
 
+    private static final Person LIBRARY = new Person(0, "Library", "storage", 2006);
+    private static int maxId;
+
     @Autowired
     public PersonDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public static int getMaxId() {
+        return maxId;
+    }
+
     public List<Person> index() {
-        String SQL = "SELECT * FROM Person";
+        String SQL = "SELECT * FROM Person ORDER BY surname, name";
         List<Person> people = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class));
 
         return people;
     }
 
     public Person show(int id) {
+        if(id == 0){
+            return LIBRARY;
+        }
         String SQL = "SELECT * FROM Person WHERE id = " + id;
         Person person = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(new Person());
@@ -36,6 +46,7 @@ public class PersonDao {
     public void save(Person person) {
         String SQL = "INSERT INTO Person(name, surname, yearOfBirth) VALUES(?, ?, ?)";
         jdbcTemplate.update(SQL, person.getName(), person.getSurname(), person.getYearOfBirth());
+        maxId = Optional.of(jdbcTemplate.queryForObject("SELECT MAX(id) FROM Book", Integer.class)).orElse(0);
     }
 
     public void edit(Person person) {

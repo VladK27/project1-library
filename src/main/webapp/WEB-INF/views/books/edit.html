@@ -3,6 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit book</title>
+  <style>
+    .error{
+      color:darkred;
+    }
+    input{
+      margin: 5px;
+    }
+  </style>
 </head>
 <body>
 <a th:href="@{/books/{id}(id = ${book.getId()}) }"><button><- To book page</button></a>
@@ -10,24 +18,19 @@
   <legend>Edit book</legend>
   <form th:object="${book}" th:method="PATCH" th:action="@{/books/{id}(id = ${book.getId()})}">
 
-    <div style="display: inline-flex; margin: 20px; justify-content: space-between">
-      <div>
-        <label for="title">Title</label>
-        <br>
-        <label for="author">Author</label>
-        <br>
-        <label for="year">Year</label>
-      </div>
-      <div>
-        <input type="text" id="title" name="title" th:value="${book.getTitle()}">
-        <br>
-        <input type="text" id="author" name="author" th:value="${book.getAuthor()}">
-        <br>
-        <input type="text" id="year" name="year" th:value="${book.getYear()}">
-      </div>
-    </div>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title">
+    <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">message</span>
     <br>
-    <button type="submit">Submit</button>
+    <label for="author">Author</label>
+    <input type="text" id="author" name="author">
+    <span class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">message</span>
+    <br>
+    <label for="year">Year</label>
+    <input type="text" id="year" name="year">
+    <span class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">message</span>
+    <p>
+      <button type="submit">Submit</button>
   </form>
 </fieldset>
 </body>

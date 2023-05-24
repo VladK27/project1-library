@@ -29,8 +29,8 @@ public class Person {
 
     //1900 < year < 2023
     @NotNull(message = "Year can't be empty")
-    @Size(min=1900, message = "Reader is too old for library")
-    @Size(max=2023, message = "Reader is too young for library")
+    @Min(value=1900, message = "Reader is too old for library")
+    @Max(value=2023, message = "Reader is too young for library")
     private int yearOfBirth;
 
     public String getFullName(){

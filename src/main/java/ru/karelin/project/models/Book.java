@@ -32,4 +32,8 @@ public class Book {
         this.author = author;
         this.year = year;
     }
+
+    public boolean hasOwner(){
+        return this.owner != 0;
+    }
 }

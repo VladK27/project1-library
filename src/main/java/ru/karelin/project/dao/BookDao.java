@@ -1,5 +1,6 @@
 package ru.karelin.project.dao;
 
+import com.mysql.cj.conf.IntegerProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,14 +14,18 @@ import java.util.Optional;
 @Component
 public class BookDao {
     private final JdbcTemplate jdbcTemplate;
+    private static int maxId;
 
     @Autowired
     public BookDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public int getMaxId(){
+        return maxId;
+    }
     public List<Book> index(){
-        String SQL = "SELECT * FROM Book";
+        String SQL = "SELECT * FROM Book ORDER BY title";
         List<Book> books = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Book.class));
 
         return books;
@@ -45,6 +50,7 @@ public class BookDao {
     public void save(Book book){
         String SQL = "INSERT INTO Book(title, author, year) VALUES(?, ?, ?)";
         jdbcTemplate.update(SQL, book.getTitle(), book.getAuthor(), book.getYear());
+        maxId = Optional.of(jdbcTemplate.queryForObject("SELECT MAX(id) FROM Book", Integer.class)).orElse(0);
     }
 
     public void edit(Book book){

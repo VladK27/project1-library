@@ -4,24 +4,53 @@
     <meta charset="UTF-8">
     <title>New reader</title>
 </head>
+<style>
+    fieldset{
+        width:fit-content;
+    }
+    .error{
+        color:darkred;
+        margin-left: 5px;
+    }
+    .form{
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+    }
+    .container{
+        display: flex;
+        justify-content: left;
+        margin-bottom: 5px;
+    }
+    label{
+        width:100px;
+    }
+</style>
 <body>
-<a href="/people"><button><- To main page</button></a>
+<a th:href="@{/people/{id}(id = ${person.getId()}) }"><button><- To reader page</button></a>
 <fieldset>
-    <legend>Add new Reader</legend>
-    <form th:object="${person}" th:method="POST" th:action="@{new}">
+    <legend>Create reader</legend>
+    <form th:object="${person}" th:method="PATCH" th:action="@{/people/{id}(id = ${person.getId()})}">
 
-        <p>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name">
-            <br>
-            <label for="surname">Surname</label>
-            <input type="text" id="surname" name="surname">
-            <br>
-            <label for="yearOfBirth">Year of birth</label>
-            <input type="text" id="yearOfBirth" name="yearOfBirth">
-        </p>
-        <button type="submit">Submit</button>
-
+        <div class="form">
+            <div class="container">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" th:value="${person.getName()}">
+                <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">message</span>
+            </div>
+            <div class="container">
+                <label for="surname">Surname</label>
+                <input type="text" id="surname" name="surname" th:value="${person.getSurname()}">
+                <span class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">message</span>
+            </div>
+            <div class="container">
+                <label for="yearOfBirth">Year of birth</label>
+                <input type="text" id="yearOfBirth" name="yearOfBirth" th:value="${person.getYearOfBirth()}">
+                <span class="error" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">message</span>
+            </div>
+        </div>
+        <br>
+        <button type="submit" class="submit-button">Submit</button>
     </form>
 </fieldset>
 

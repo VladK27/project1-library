@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>Set</title>
 </head>
+<style>
+    .error{
+        color: darkred;
+    }
+</style>
 <body>
 <p><a href="/"><button><- To main page</button></a></p>
 <p>-Select book, then select reader and press Submit button. Book will set to reader.</p>
@@ -16,11 +21,13 @@
     </fieldset>
     <fieldset>
     <legend>Select reader</legend>
-        <select class="readers" name="personId"id="readers">
+        <select class="readers" name="personId" id="readers">
+            <option value="0" >Library</option>
             <option  th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}">person</option>
         </select>
 
     </fieldset>
+    <p class="error" th:if="${#fields.hasErrors('owner')}" th:error="*{owner}">message</p>
     <button type="submit">Submit</button>
 </form>
 
