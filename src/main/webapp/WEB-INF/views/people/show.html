@@ -4,44 +4,56 @@
     <meta charset="UTF-8">
     <title th:text="${person.getFullName()}"></title>
     <style>
-        .user{
+        .user {
             padding: 10px;
             margin: auto;
         }
-        .books{
+
+        .books {
             padding: 5px;
         }
-        .info{
+
+        .info {
             margin: auto;
         }
     </style>
 </head>
 <body>
-    <a href="/people"><button><- To main page</button></a>
+<a href="/people">
+    <button><- To main page</button>
+</a>
 
-    <fieldset class="info">
-        <legend>Reader</legend>
+<fieldset class="info">
+    <legend>Reader</legend>
 
-        <div class="user">
+    <div class="user">
         <p th:text="${person.getFullName()} + ', ' + ${person.getYearOfBirth()}">name + surname, year of birth</p>
-        </div>
+    </div>
+
+    <hr>
+
+    <div class="books" th:if="!${books.isEmpty()}">
 
         <legend>Books</legend>
-        <div class="books">
-
         <ul th:each="book : ${books}">
             <li>
                 <a th:href="@{/books/{id}(id = ${book.getId()} )}" th:text="${book.getTitle()}">book</a>
             </li>
         </ul>
+    </div>
+    <p th:unless="!${books.isEmpty()}">Reader has no books</p>
+    <hr>
+    <a th:href="@{{id}/edit (id = ${person.getId()}) }">
+        <button>Edit</button>
+    </a>
+    </hr>
+</fieldset>
 
-        </div>
-        <a th:href="@{{id}/edit (id = ${person.getId()}) }"><button>Edit</button></a>
-    </fieldset>
-
-    <form th:method="DELETE" th:action="@{#}">
-        <a><button>Delete</button></a>
-    </form>
+<form th:method="DELETE" th:action="@{#}">
+    <a>
+        <button>Delete</button>
+    </a>
+</form>
 
 </body>
 </html>

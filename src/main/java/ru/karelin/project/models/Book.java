@@ -11,12 +11,14 @@ import lombok.*;
 public class Book {
     private int id;
 
+    @NotNull(message = "Name can't be empty")
+    @NotEmpty(message = "Name can't be empty")
     private String title;
 
     //[A-Z]\w{2-20} [A-Z]\w{2-20} [A-Z]\w{2-20}; not null
     @NotNull(message = "Name can't be empty")
     @NotEmpty(message = "Name can't be empty")
-    @Pattern(regexp = "~[A-Z]\\w{2,20}\\s|[A-Z]\\w{2,20}~gm", message = "Name should starts with big letter and contains only letters")
+    @Pattern(regexp = "([A-Z][a-z]{2,30} )+[A-Z][a-z]{2,30}|[A-Z][a-z]{2,30}", message = "Name should starts with big letter and contains only letters")
     private String author;
 
     //not null; year <= 2023

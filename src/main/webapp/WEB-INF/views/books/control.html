@@ -8,6 +8,9 @@
     .error{
         color: darkred;
     }
+    .success{
+        color:green;
+    }
     .container{
         width:fit-content;
         display: flex;
@@ -38,8 +41,11 @@
         </fieldset>
     </div>
 
-    <p class="error" th:if="${#fields.hasErrors('owner')}" th:error="*{owner}">message</p>
     <button type="submit">Submit</button>
+    <p class="error" th:if="${ownerError} != null" th:text="${ownerError}">error</p>
+    <p class="success" th:if="${successMessage} != null" th:text="${successMessage}">success</p>
+
+
 </form>
 
 

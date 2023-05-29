@@ -5,19 +5,24 @@
     <title th:text="'id:' + ${book.getId} + ' Book'">book</title>
 </head>
 <body>
+<a href="/books"><button><- To books list page</button></a>
+
   <fieldset>
     <legend>Book information</legend>
     <div class="info">
-      <p th:text="${book.getTitle()} + ', ' + ${book.getYear()}">title,year</p>
-      <p th:text="${book.getAuthor()}">author</p>
+      <p>Title: "<span th:text="${book.getTitle()}">title</span>"
+      <br>
+      <p>Year: <span th:text="${book.getYear()}">year</span>
+      <br>
+      <p>Author: <span th:text="${book.getAuthor()}">author</span>
     </div>
     <hr>
     <div >
-      <p th:if="${book.getOwner != 0}">
+      <p th:if="${book.getOwner() != 0}">
         Owner: <a th:text="${ownerName}" th:href="@{/people/{id}(id = ${ownerId})}">owner name</a>
       </p>
 
-      <p th:unless="${book.getOwner != 0}">
+      <p th:unless="${book.getOwner() != 0}">
         Book in library
       </p>
     </div>

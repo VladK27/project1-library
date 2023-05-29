@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.karelin.project.dao.BookDao;
 import ru.karelin.project.dao.PersonDao;
 import ru.karelin.project.models.Book;
@@ -31,20 +32,20 @@ public class BookController {
     public String index(Model model) {
         model.addAttribute("books", bookDao.index());
 
-
         return "books/index";
     }
 
     @GetMapping("/{id}")
     public String show(Model model, @PathVariable("id") int id) {
-        if(id > bookDao.getMaxId()){
+        Book book = bookDao.show(id);
+
+        if(book.getTitle() == null){
             return "pageNotFound";
         }
-        Book book = bookDao.show(id);
         model.addAttribute("book", book);
         Person owner = personDao.show(book.getOwner());
         model.addAttribute("ownerName", owner.getFullName());
-        model.addAttribute("ownerId", id);
+        model.addAttribute("ownerId", owner.getId());
 
         return "books/show";
     }
@@ -58,11 +59,10 @@ public class BookController {
 
 
     @PostMapping("/new")
-    public String save(@ModelAttribute("book") @Valid Book book, Model model, BindingResult bindingResult) {
+    public String save(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
         bookValidator.validate(book, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("book", book);
             return "books/new";
         } else {
             bookDao.save(book);
@@ -79,8 +79,6 @@ public class BookController {
 
     @PatchMapping("/{id}")
     public String edit(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
-        bookValidator.validate(book, bindingResult);
-
         if (bindingResult.hasErrors()) {
             return "book/edit";
         }
@@ -107,14 +105,25 @@ public class BookController {
 
     @PatchMapping("/control")
     public String setOwner(@ModelAttribute("bookId") int bookId,
-                           @ModelAttribute("personId") int personId, BindingResult bindingResult) {
-        if(bookDao.show(bookId).hasOwner()){
-            bindingResult.rejectValue("owner", "", "The book already has an owner");
-            return "redirect:/books/control";
+                           @ModelAttribute("personId") int personId, Model model) {
+
+        Book book = bookDao.show(bookId);
+        Person reader = personDao.show(personId);
+        if(book.hasOwner() && personId != 0) {
+            model.addAttribute("ownerError", String.format(
+                    "The book \"%s\" already has an owner - %s",
+                     book.getTitle(), personDao.show(book.getOwner()).getFullName()
+            ));
+
+            return getControlPage(model);
         }
         bookDao.setOwner(bookId, personId);
+        model.addAttribute("successMessage", String.format(
+                "The book \"%s\" has been successfully issued to the %s",
+                book.getTitle(), reader.getFullName()
+        ));
 
-        return "redirect:/books/control";
+        return getControlPage(model);
     }
 
 }

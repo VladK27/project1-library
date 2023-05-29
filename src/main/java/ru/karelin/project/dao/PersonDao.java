@@ -14,15 +14,10 @@ public class PersonDao {
     private final JdbcTemplate jdbcTemplate;
 
     private static final Person LIBRARY = new Person(0, "Library", "storage", 2006);
-    private static int maxId;
 
     @Autowired
     public PersonDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public static int getMaxId() {
-        return maxId;
     }
 
     public List<Person> index() {
@@ -46,7 +41,6 @@ public class PersonDao {
     public void save(Person person) {
         String SQL = "INSERT INTO Person(name, surname, yearOfBirth) VALUES(?, ?, ?)";
         jdbcTemplate.update(SQL, person.getName(), person.getSurname(), person.getYearOfBirth());
-        maxId = Optional.of(jdbcTemplate.queryForObject("SELECT MAX(id) FROM Book", Integer.class)).orElse(0);
     }
 
     public void edit(Person person) {
@@ -60,7 +54,7 @@ public class PersonDao {
     }
 
     public Optional<Person> show(String name, String surname) {
-        String SQL = "SELECT FROM Person WHERE name = ? AND surname = ?";
+        String SQL = "SELECT * FROM Person WHERE name = ? AND surname = ?";
 
         return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class), name, surname)
                 .stream().findAny();

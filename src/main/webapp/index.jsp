@@ -21,6 +21,9 @@
         <a href="/books"><button>List of books</button></a>
     </div>
     <div>
+        <a href="/people/0"><button>Check library storage</button></a>
+    </div>
+    <div>
         <a href="/books/control"><button>Manage books</button></a>
     </div>
 </div>

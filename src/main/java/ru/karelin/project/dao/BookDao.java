@@ -10,20 +10,17 @@ import ru.karelin.project.models.Person;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class BookDao {
     private final JdbcTemplate jdbcTemplate;
-    private static int maxId;
 
     @Autowired
     public BookDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int getMaxId(){
-        return maxId;
-    }
     public List<Book> index(){
         String SQL = "SELECT * FROM Book ORDER BY title";
         List<Book> books = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Book.class));
@@ -39,18 +36,23 @@ public class BookDao {
         return book;
     }
 
-    public Book showByOwner(int ownerId){
-        String SQL = "SELECT * FROM Book WHERE owner = " + ownerId;
-        Book book = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Book.class))
-                .stream().findAny().orElse(new Book());
+    public Optional<Person> show(String title) {
+        String SQL = "SELECT * FROM Book WHERE title = ?";
 
-        return book;
+        return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class), title)
+                .stream().findAny();
+    }
+
+    public List<Book> showByOwner(int ownerId){
+        String SQL = "SELECT * FROM Book WHERE owner = " + ownerId;
+        List<Book> books = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Book.class));
+
+        return books;
     }
 
     public void save(Book book){
         String SQL = "INSERT INTO Book(title, author, year) VALUES(?, ?, ?)";
         jdbcTemplate.update(SQL, book.getTitle(), book.getAuthor(), book.getYear());
-        maxId = Optional.of(jdbcTemplate.queryForObject("SELECT MAX(id) FROM Book", Integer.class)).orElse(0);
     }
 
     public void edit(Book book){
@@ -68,10 +70,5 @@ public class BookDao {
         jdbcTemplate.update(SQL, personId, bookId);
     }
 
-    public Optional<Person> show(String title) {
-        String SQL = "SELECT * FROM Book WHERE title = ?";
 
-        return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Person.class), title)
-                .stream().findAny();
-    }
 }
