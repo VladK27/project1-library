@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Set</title>
+    <title>Control</title>
 </head>
 <style>
     .error{
@@ -33,7 +33,7 @@
                 </select>
         </fieldset>
         <fieldset>
-            <legend>Select reader</legend>
+            <legend>Select reader or Library</legend>
                 <select class="readers" name="personId" id="readers">
                     <option value="0" >Library</option>
                     <option  th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}">person</option>
@@ -41,7 +41,8 @@
         </fieldset>
     </div>
 
-    <button type="submit">Submit</button>
+    <p><button type="submit">Submit</button></p>
+
     <p class="error" th:if="${ownerError} != null" th:text="${ownerError}">error</p>
     <p class="success" th:if="${successMessage} != null" th:text="${successMessage}">success</p>
 

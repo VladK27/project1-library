@@ -18,11 +18,11 @@
     </div>
     <hr>
     <div >
-      <p th:if="${book.getOwner() != 0}">
+      <p th:if="${book.getOwner() != null}">
         Owner: <a th:text="${ownerName}" th:href="@{/people/{id}(id = ${ownerId})}">owner name</a>
       </p>
 
-      <p th:unless="${book.getOwner() != 0}">
+      <p th:unless="${book.getOwner() != null}">
         Book in library
       </p>
     </div>

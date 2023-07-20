@@ -82,8 +82,23 @@
       <artifactId>hibernate-validator</artifactId>
       <version>8.0.0.Final</version>
     </dependency>
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>6.2.4.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-jpa</artifactId>
+      <version>3.0.5</version>
+    </dependency>
   </dependencies>
   <build>
-    <finalName>FirstCRUD</finalName>
+    <finalName>project1-library</finalName>
   </build>
 </project>

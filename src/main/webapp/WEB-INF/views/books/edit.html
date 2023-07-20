@@ -35,17 +35,19 @@
     <div class="form">
       <div class="container">
         <label for="title">Title</label>
-        <input type="text" id="title" name="title">
+        <input type="text" id="title" name="title" th:value="${book.getTitle()}">
         <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">message</span>
       </div>
       <div class="container">
         <label for="author">Author</label>
-        <input type="text" id="author" name="author">
+        <input type="text" id="author" name="author" th:value="${book.getAuthor()}">
         <span class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">message</span>
       </div>
       <div class="container">
         <label for="year">Year</label>
-        <input type="text" id="year" name="year">
+        <input type="text" id="year" name="year" th:value="${book.getYear()}"
+
+        >
         <span class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">message</span>
       </div>
     </div>

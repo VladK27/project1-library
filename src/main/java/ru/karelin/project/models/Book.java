@@ -1,33 +1,41 @@
 package ru.karelin.project.models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Entity
+@Table(name = "Book")
 public class Book {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "title")
     @NotNull(message = "Name can't be empty")
     @NotEmpty(message = "Name can't be empty")
+    @Size(min=2, max=200, message = "Title should be from 2 to 200 symbols")
     private String title;
 
-    //[A-Z]\w{2-20} [A-Z]\w{2-20} [A-Z]\w{2-20}; not null
+    @Column(name = "author")
     @NotNull(message = "Name can't be empty")
     @NotEmpty(message = "Name can't be empty")
     @Pattern(regexp = "([A-Z][a-z]{2,30} )+[A-Z][a-z]{2,30}|[A-Z][a-z]{2,30}", message = "Name should starts with big letter and contains only letters")
     private String author;
 
-    //not null; year <= 2023
+    @Column(name = "year")
     @NotNull(message = "Year can't be empty")
     @Max(value=2023, message = "Year must be under 2023")
     private int year;
 
-    @Min(0)
-    private int owner;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person owner;
 
     public Book(String title, String author, int year){
         this.title = title;
@@ -36,6 +44,6 @@ public class Book {
     }
 
     public boolean hasOwner(){
-        return this.owner != 0;
+        return getOwner() != null;
     }
 }
