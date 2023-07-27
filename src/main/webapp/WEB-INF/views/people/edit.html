@@ -27,25 +27,25 @@
     }
 </style>
 <body>
-<a th:href="@{/people/{id}(id = ${person.getId()}) }"><button><- To reader page</button></a>
+<a th:href="@{/people/{id}(id = ${person.id}) }"><button><- To reader page</button></a>
 <fieldset>
     <legend>Edit reader</legend>
-    <form th:object="${person}" th:method="PATCH" th:action="@{/people/{id}(id = ${person.getId()})}">
+    <form th:object="${person}" th:method="PATCH" th:action="@{/people/{id}(id = ${person.id})}">
 
         <div class="form">
             <div class="container">
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" th:value="${person.getName()}">
+                <input type="text" id="name" name="name" th:value="${person.name}">
                 <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">message</span>
             </div>
             <div class="container">
                 <label for="surname">Surname</label>
-                <input type="text" id="surname" name="surname" th:value="${person.getSurname()}">
+                <input type="text" id="surname" name="surname" th:value="${person.surname}">
                 <span class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">message</span>
             </div>
             <div class="container">
                 <label for="yearOfBirth">Year of birth</label>
-                <input type="text" id="yearOfBirth" name="yearOfBirth" th:value="${person.getYearOfBirth()}">
+                <input type="text" id="yearOfBirth" name="yearOfBirth" th:value="${person.yearOfBirth}">
                 <span class="error" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">message</span>
             </div>
         </div>

@@ -8,6 +8,7 @@
     .main{
         border:2px solid gray;
         padding: 10px;
+        width: 216px;
     }
     button{
         margin: 5px;
@@ -19,6 +20,9 @@
     <div>
         <a href="/people"><button>List of readers</button></a>
         <a href="/books"><button>List of books</button></a>
+    </div>
+    <div>
+        <a href="/books/search"><button>Search books</button></a>
     </div>
     <div>
         <a href="/people/0"><button>Check library storage</button></a>

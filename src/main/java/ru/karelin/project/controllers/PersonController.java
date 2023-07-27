@@ -47,7 +47,14 @@ public class PersonController {
         }
 
         model.addAttribute("person", personOptional.get());
-        model.addAttribute("books", bookService.showByOwnerId(id));
+
+        List<Book> books = bookService.showByOwnerId(id);
+        if(id != 0){
+            for(var book : books){
+                book.setOverdue();
+            }
+        }
+        model.addAttribute("books", books);
 
         return "people/show";
     }
@@ -73,8 +80,13 @@ public class PersonController {
 
     @GetMapping("{id}/edit")
     public String getPageEdit(Model model, @PathVariable("id") int id){
-        model.addAttribute("person", personService.show(id).get());
+        Optional<Person> personOptional = personService.show(id);
 
+        if(personOptional.isEmpty()){
+            return "pageNotFound";
+        }
+
+        model.addAttribute("person", personOptional.get());
         return "people/edit";
     }
 

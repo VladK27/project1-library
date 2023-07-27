@@ -10,7 +10,7 @@
 <h4>List of readers</h4>
 <div th:each="person : ${people}">
     <br/>
-    <a th:href="@{/people/{id}(id = ${person.getId()}) }" th:text="${person.getFullName()}">full name</a>
+    <a th:href="@{/people/{id}(id = ${person.id}) }" th:text="${person.getFullName()}">full name</a>
 </div>
 </body>
 </html>

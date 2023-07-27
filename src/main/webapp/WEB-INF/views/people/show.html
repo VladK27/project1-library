@@ -7,6 +7,8 @@
         .user {
             padding: 10px;
             margin: auto;
+            font-weight: bolder;
+            font-size: 21px;
         }
 
         .books {
@@ -15,6 +17,15 @@
 
         .info {
             margin: auto;
+        }
+        .book{
+            width: 300px;
+            margin-bottom: 8px;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+        .book-info{
+            font-weight: bolder;
         }
     </style>
 </head>
@@ -27,23 +38,25 @@
     <legend>Reader</legend>
 
     <div class="user">
-        <p th:text="${person.getFullName()} + ', ' + ${person.getYearOfBirth()}">name + surname, year of birth</p>
+        <p th:text="${person.getFullName()} + ', ' + ${person.yearOfBirth}">name + surname, year of birth</p>
     </div>
 
     <hr>
 
-    <div class="books" th:if="!${books.isEmpty()}">
+        <legend>Books:</legend>
+        <div class="books" th:each="book : ${books}" th:if="!${books.isEmpty()}">
+            <fieldset th:if="${book.isOverdue}" style="background: rgba(173,55,55,0.43)" class="book">
+                <a class="book-info" th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
+                <div style="text-decoration-line:underline ">The book is overdue!</div>
+            </fieldset>
+            <fieldset th:unless="${book.isOverdue}" class="book">
+                <a class="book-info" th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
+            </fieldset>
+        </div>
 
-        <legend>Books</legend>
-        <ul th:each="book : ${books}">
-            <li>
-                <a th:href="@{/books/{id}(id = ${book.getId()} )}" th:text="${book.getTitle()}">book</a>
-            </li>
-        </ul>
-    </div>
     <p th:unless="!${books.isEmpty()}">Reader has no books</p>
     <hr>
-    <a th:href="@{{id}/edit (id = ${person.getId()}) }">
+    <a th:href="@{{id}/edit (id = ${person.id}) }">
         <button>Edit</button>
     </a>
     </hr>

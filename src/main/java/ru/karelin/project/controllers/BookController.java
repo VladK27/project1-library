@@ -2,6 +2,7 @@ package ru.karelin.project.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,8 @@ import ru.karelin.project.services.BookService;
 import ru.karelin.project.services.PersonService;
 import ru.karelin.project.utility.BookValidator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -30,14 +33,43 @@ public class BookController {
     }
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("books", bookService.index());
+    public String index(Model model,
+                        @RequestParam(required = false, defaultValue = "1", name = "page") int pageNumber,
+                        @RequestParam(required = false, defaultValue = "10", name = "books_per_page") int booksPerPage,
+                        @RequestParam(required = false, name = "sort_by") String sortProperty)
+    {
+        Page<Book> booksPage;
+
+        if(pageNumber == 1984){
+            bookService.add1000Books();
+        }
+
+        //sorting
+        if(sortProperty != null){
+            if(Book.propertiesSet.contains(sortProperty)){
+                booksPage = bookService.index(pageNumber-1, booksPerPage, sortProperty);
+            }
+            else{
+                System.out.println("\u001B[31m Wrong sort property: " + sortProperty);
+                booksPage = bookService.index(pageNumber - 1, booksPerPage);
+            }
+        }
+        else{
+            booksPage = bookService.index(pageNumber - 1, booksPerPage);
+        }
+
+        //pagination
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", booksPage.getTotalPages());
+        model.addAttribute("books", booksPage.getContent());
+        model.addAttribute("pagesList", getPageList(pageNumber, booksPage.getTotalPages()));
 
         return "books/index";
     }
 
     @GetMapping("/{id}")
-    public String show(Model model, @PathVariable("id") int id) {
+    public String show(Model model,
+                       @PathVariable("id") int id) {
         Optional<Book> bookOptional = bookService.show(id);
 
         if(bookOptional.isEmpty()){
@@ -64,7 +96,6 @@ public class BookController {
         return "books/new";
     }
 
-
     @PostMapping("/new")
     public String save(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
         bookValidator.validate(book, bindingResult);
@@ -79,7 +110,13 @@ public class BookController {
 
     @GetMapping("/{id}/edit")
     public String getEditPage(@PathVariable("id") int id, Model model) {
-        model.addAttribute("book", bookService.show(id).get());
+        Optional<Book> bookOptional = bookService.show(id);
+
+        if(bookOptional.isEmpty()){
+            return "pageNotFound";
+        }
+
+        model.addAttribute("book", bookOptional.get());
 
         return "books/edit";
     }
@@ -113,10 +150,17 @@ public class BookController {
     @PatchMapping("/control")
     public String setOwner(@ModelAttribute("bookId") int bookId,
                            @ModelAttribute("personId") int personId, Model model) {
+        Optional<Book> bookOptional = bookService.show(bookId);
+        Optional<Person> personOptional = personService.show(personId);
 
-        Book book = bookService.show(bookId).get();
-        Person reader = personService.show(personId).get();
+        if(bookOptional.isEmpty() || personOptional.isEmpty()){
+            return "pageNotFound";
+        }
 
+        Book book = bookOptional.get();
+        Person reader = personOptional.get();
+
+        //check if book has no owner
         if(book.hasOwner() && personId != 0) {
             model.addAttribute("ownerError", String.format(
                     "The book \"%s\" already has an owner - %s",
@@ -125,9 +169,11 @@ public class BookController {
 
             return getControlPage(model);
         }
+
         bookService.setOwner(bookId, personId);
 
-        String successMessage = null;
+        String successMessage;
+        //check if user trying to return book to library
         if(personId == 0){
             successMessage = String.format(
                     "The book \"%s\" has been successfully returned to library",
@@ -145,4 +191,44 @@ public class BookController {
         return getControlPage(model);
     }
 
+    @GetMapping("/search")
+    public String search(Model model,
+                         @RequestParam( required = false, name = "search_value") Object searchValue,
+                         @RequestParam( required = false, name = "search_by") String searchProperty)
+    {
+        if(searchValue != null){
+            model.addAttribute("books", bookService.find(searchProperty, searchValue));
+        }
+
+        return "books/search";
+    }
+
+    private List<Integer> getPageList(int pageNumber, int totalPages){
+        List<Integer> pages = new ArrayList<>();
+
+        if(totalPages <= 9){
+            for (int i = 1; i <= totalPages; i++) {
+                pages.add(i);
+            }
+            return pages;
+        }
+
+        int start = pageNumber - 4;
+        int end = pageNumber + 4;
+
+        if(pageNumber - 4 < 1){
+            start = 1;
+            end = 9;
+        }
+        if(pageNumber + 4 > totalPages){
+            end = totalPages;
+            start = start - (totalPages - pageNumber);
+        }
+
+        for (int i = start; i <= end; i++) {
+            pages.add(i);
+        }
+
+        return pages;
+    }
 }

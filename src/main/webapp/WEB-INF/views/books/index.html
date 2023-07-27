@@ -4,13 +4,80 @@
     <meta charset="UTF-8">
     <title>Books</title>
 </head>
+<style>
+    .pages {
+        height: 30px;
+        width: 400px;
+        display: flex;
+        flex-direction: row;
+        padding: 5px;
+        margin-top:10px;
+    }
+    .pages a{
+        color: #151c2c;
+        font-size: 19px;
+        margin-left: 5px;
+        margin-right: 5px;
+        text-decoration: none;
+    }
+    .title_sort{
+        display: flex;
+        flex-direction: row;
+    }
+    body{
+        width: 500px;
+        border: solid 2px black;
+        border-radius: 5px;
+        padding: 30px;
+    }
+    .book{
+        width: 400px;
+        margin-bottom: 10px;
+        margin-left: 15px;
+    }
+    .book-info{
+        font-size: 19px;
+        font-weight: bolder;
+    }
+    .book a{
+        text-decoration-line: none;
+    }
+</style>
 <body>
 <p><a href="/"><button><- To main page</button></a></p>
 <a href="books/new"><button>Add new book</button></a>
 <h4>List of books</h4>
-<div th:each="book : ${books}">
-    <br/>
-    <a  th:href="@{/books/{id}(id = ${book.getId()}) }" th:text="${book.getTitle()}">title</a>
+<div class="title_sort">
+    <form action="/books">
+        <label for="sort">Sort by:</label>
+        <select id="sort" name="sort_by">
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="year">Year</option>
+        </select>
+        <input type="hidden" name="page" th:value="${currentPage}">
+        <button type="submit">Sort</button>
+    </form>
 </div>
+
+<hr style="width: 480px">
+
+<fieldset class="book" th:each="book : ${books}">
+    <a class="book-info" th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
+    <br>
+    <div class="owner-info" th:if="${book.hasOwner()}">
+        Owner: <a th:text="${book.owner.getFullName()}" th:href="@{/people/{id}(id = ${book.owner.id})}">owner name</a>
+    </div>
+    <div class="owner-info" th:unless="${book.hasOwner()}">Book in <a href="/people/0">library</a></div>
+</fieldset>
+
+    <nav class="pages">
+        <div th:if="${pagesList.get(0)} != 1"><a href="/books?page=1">1</a>...</div>
+        <div th:each="i : ${pagesList}">
+            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{books?page={i}(i = ${i}) }" >page number</a>
+            <div th:unless="${i} != ${currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">|<a  th:text="${i}" th:href="@{books?page={i}(i = ${i}) }" >page number</a>|</div>
+        </div>
+        <div th:if="${pagesList.get(pagesList.size()-1) != totalPages}">...<a th:href="@{books?page={last}(last = ${totalPages}) }" th:text="${totalPages}"></a></div>
+    </nav>
 </body>
 </html>

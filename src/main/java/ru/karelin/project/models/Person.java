@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -43,6 +45,11 @@ public class Person {
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<Book> books;
+
+    @Transient
+    private static final Set<String> sortPropertiesSet = new HashSet<>(Set.of(
+            "id", "name", "surname", "yearOfBirth"
+    ));
 
     public Person(int id, String name, String surname, Integer yearOfBirth) {
         this.id = id;

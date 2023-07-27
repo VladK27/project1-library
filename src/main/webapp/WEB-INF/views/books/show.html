@@ -2,32 +2,32 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="'id:' + ${book.getId} + ' Book'">book</title>
+    <title th:text="'id:' + ${book.id} + ' Book'">book</title>
 </head>
 <body>
-<a href="/books"><button><- To books list page</button></a>
+<a th:href="@{/books?page={page}(page = ${param.page}) }" href="/books"><button><- To books list page</button></a>
 
   <fieldset>
     <legend>Book information</legend>
     <div class="info">
-      <p>Title: "<span th:text="${book.getTitle()}">title</span>"
+      <p>Title: "<span th:text="${book.title}">title</span>"
       <br>
-      <p>Year: <span th:text="${book.getYear()}">year</span>
+      <p>Year: <span th:text="${book.year}">year</span>
       <br>
-      <p>Author: <span th:text="${book.getAuthor()}">author</span>
+      <p>Author: <span th:text="${book.author}">author</span>
     </div>
     <hr>
     <div >
-      <p th:if="${book.getOwner() != null}">
+      <p th:if="${book.owner != null}">
         Owner: <a th:text="${ownerName}" th:href="@{/people/{id}(id = ${ownerId})}">owner name</a>
       </p>
 
-      <p th:unless="${book.getOwner() != null}">
+      <p th:unless="${book.owner != null}">
         Book in library
       </p>
     </div>
     <hr>
-    <a th:href="@{{id}/edit(id = ${book.getId()}) }"><button>Edit</button></a>
+    <a th:href="@{{id}/edit?page={page}(id = ${book.id}, page = ${param.page}) }"><button>Edit</button></a>
 
   </fieldset>
 <form th:method="DELETE" th:action="@{#}">

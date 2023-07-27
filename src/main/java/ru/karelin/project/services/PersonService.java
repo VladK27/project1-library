@@ -19,8 +19,6 @@ public class PersonService {
 
     private final static Person LIBRARY = new Person(0, "Library", "storage", 2006);
 
-    //prestart preparation
-
     private final PeopleRepository peopleRepository;
 
     @Autowired

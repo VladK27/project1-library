@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -33,9 +37,21 @@ public class Book {
     @Max(value=2023, message = "Year must be under 2023")
     private int year;
 
+    @Column(name = "date_of_issue")
+    @Temporal(TemporalType.DATE)
+    private Date dateOfIssue;
+
+    @Transient
+    private boolean isOverdue;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
+
+    @Transient
+    public static final Set<String> propertiesSet = new HashSet<>(Set.of(
+            "id", "title", "author", "year", "owner"
+    ));
 
     public Book(String title, String author, int year){
         this.title = title;
@@ -45,5 +61,14 @@ public class Book {
 
     public boolean hasOwner(){
         return getOwner() != null;
+    }
+
+    public void setOverdue(){
+        if(dateOfIssue != null){
+            Date currentDate = new Date();
+            long millisInDay = 86_400_000;
+            long difference = (currentDate.getTime() - dateOfIssue.getTime() ) / millisInDay;
+            this.isOverdue = difference > 10;
+        }
     }
 }
