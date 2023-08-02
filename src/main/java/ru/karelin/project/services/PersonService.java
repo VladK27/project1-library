@@ -1,12 +1,8 @@
 package ru.karelin.project.services;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityManager;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.karelin.project.models.Book;
 import ru.karelin.project.models.Person;
 import ru.karelin.project.repositories.PeopleRepository;
 
@@ -36,8 +32,7 @@ public class PersonService {
             return Optional.of(LIBRARY);
         }
 
-        Optional<Person> optionalPerson = peopleRepository.findById(id);
-        return optionalPerson;
+        return peopleRepository.findById(id);
     }
 
     @Transactional(readOnly = false)

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<style>
+    .info{
+        margin: 30px;
+        border-radius: 10px;
+        padding: 10px;
+        width: 300px;
+        background-color: #f0f0f0;
+        box-shadow: 3px 3px 10px black;
+    }
+    .info div{
+        display: flex;
+        margin: 5px;
+    }
+    .logout-button{
+        border: 1px gray solid;
+        width: 90px;
+        height: 30px;
+        border-radius: 10px;
+        font-size: 15px;
+        text-align: center;
+        background: gainsboro;
+    }
+    .logout-button:hover{
+        background: #b7b7b7;
+    }
+</style>
+<body>
+    <form th:method="POST" th:action="@{/auth/logout}">
+        <a><button class="logout-button">Logout</button></a>
+    </form>
+    <div class="info">
+        <div>Name: <div th:text="${employee.name}"></div></div>
+        <div>Surname: <div th:text="${employee.surname}"></div></div>
+        <div>Year of birth: <div th:text="${employee.yearOfBirth}"></div></div>
+        <div>Email: <div th:text="${employee.email}"></div></div>
+        <div>Phone number: <div th:text="${employee.phoneNumber}"></div></div>
+    </div>
+</body>
+</html>

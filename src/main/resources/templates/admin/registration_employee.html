@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 150vh;
+        background-color: #f0f0f0;
+      }
+      .registration-form {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+      .registration-form h2, h1 {
+        text-align: center;
+      }
+      .registration-form label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .registration-form input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+      .registration-form input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .registration-form input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+      .error-message{
+        color: darkred;
+      }
+      .role{
+        display: flex;
+      }
+    </style>
+  </head>
+
+<body>
+
+<div class="registration-form">
+  <h1>Registration form</h1>
+  <hr>
+  <form th:action="@{/admin/register}" th:method="POST" th:object="${employee}">
+    <h2>Credentials</h2>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <div th:if="${errorsCredentials} != null and ${errorsCredentials.getFieldError('username')} != null" th:text="${errorsCredentials.getFieldError('username').getDefaultMessage()}" class="error-message"> error message</div>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <div th:if="${errorsCredentials} != null and ${errorsCredentials.getFieldError('password')} != null" th:text="${errorsCredentials.getFieldError('password').getDefaultMessage()}" class="error-message"> error message</div>
+
+    <div class="role">
+      <label for="role">Role: </label>
+      <select id="role" name="role">
+        <option value="ROLE_MANAGER" >Manager</option>
+        <option value="ROLE_ADMIN" >Admin</option>
+      </select>
+    </div>
+
+    <h2>Personal Info</h2>
+
+    <label for="name">First Name:</label>
+    <input th:field="*{name}" type="text" id="name" name="name" required>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"> error message</div>
+
+    <label for="surname">Last Name:</label>
+    <input th:field="*{surname}" type="text" id="surname" name="surname" required>
+    <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" class="error-message"> error message</div>
+
+    <label for="yearOfBirth">Year of Birth:</label>
+    <input th:field="*{yearOfBirth}" type="number" id="yearOfBirth" name="yearOfBirth" required>
+    <div th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}" class="error-message"> error
+      message
+    </div>
+
+    <label for="phoneNumber">Phone Number:</label>
+    <input th:field="*{phoneNumber}" type="tel" id="phoneNumber" name="phoneNumber" required>
+    <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error-message"> error
+      message
+    </div>
+
+    <label for="email">Email:</label>
+    <input th:field="*{email}" type="email" id="email" name="email" required>
+    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"> error message</div>
+
+    <p></p>
+    <input type="submit" value="Register">
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<style>
+    .search-field{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 430px;
+        margin-left: 10px;
+    }
+    .search-field button{
+        width: 100px;
+    }
+    body{
+        border: solid black 2px;
+        border-radius: 5px;
+        width: 450px;
+        min-height: 400px;
+    }
+    .book{
+        width: 400px;
+        margin-bottom: 30px;
+        margin-left: 15px;
+    }
+    .book-info{
+        font-size: 19px;
+        font-weight: bolder;
+    }
+    .owner-info{
+        margin-top: 7px;
+    }
+    .title{
+        margin-left: 43%;
+    }
+</style>
+<body>
+<h3 class="title">Search</h3>
+    <form class="search-field" action="/books/search" method="get">
+        <input placeholder="Search" id=search-input type="text" name="search_value" required th:value="${param.search_value}">
+
+        <label for="search-type">Search by: </label>
+        <select id="search-type" name="search_by">
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="year">Year</option>
+        </select>
+
+        <button type="submit">Search</button>
+    </form>
+    <hr style="width: 400px; margin: 25px">
+    <div th:if="${books} != null">
+        <div class="book-info" style="margin-left: 20px" th:if="${books.isEmpty()}">Books not found</div>
+        <div th:unless="${books.isEmpty()}">
+            <fieldset class="book" th:each="book : ${books}">
+                <a class="book-info" th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
+                <br>
+                <div class="owner-info" th:if="${book.hasOwner()}">
+                    Owner: <a th:text="${book.owner.getFullName()}" th:href="@{/people/{id}(id = ${book.owner.id})}">owner name</a>
+                </div>
+                <div class="owner-info" th:unless="${book.hasOwner()}">Book in <a href="/people/0">library</a></div>
+            </fieldset>
+        </div>
+    </div>
+</body>
+</html>

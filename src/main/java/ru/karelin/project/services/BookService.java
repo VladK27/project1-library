@@ -30,22 +30,19 @@ public class BookService {
     }
 
     public List<Book> index(){
-        List<Book> books = booksRepository.findAll();
 
-        return books;
+        return booksRepository.findAll();
     }
 
     public Page<Book> index(int pageNumber, int booksPerPage){
-        Page<Book> books = booksRepository.findAll(PageRequest.of(pageNumber, booksPerPage));
 
-        return books;
+        return booksRepository.findAll(PageRequest.of(pageNumber, booksPerPage));
     }
 
     public Page<Book> index(int pageNumber, int booksPerPage, String sortProperty){
-        Page<Book> books = booksRepository.findAll(
-                PageRequest.of(pageNumber, booksPerPage, Sort.by(sortProperty)));
 
-        return books;
+        return booksRepository.findAll(
+                PageRequest.of(pageNumber, booksPerPage, Sort.by(sortProperty)));
     }
 
     public Optional<Book> show(int id){

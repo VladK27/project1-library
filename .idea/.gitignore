@@ -8,4 +8,4 @@
 /dataSources.local.xml
 ../target
 ../.idea
-../src/main\resources\database.properties
+../src/main/resources/application.properties

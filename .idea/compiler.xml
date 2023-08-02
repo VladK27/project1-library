@@ -15,4 +15,9 @@
       <module name="library" target="19" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="project-library" options="-parameters" />
+    </option>
+  </component>
 </project>
