@@ -40,10 +40,6 @@ public class BookController {
     {
         Page<Book> booksPage;
 
-        if(pageNumber == 1984){
-            bookService.add1000Books();
-        }
-
         //sorting
         if(sortProperty != null){
             if(Book.propertiesSet.contains(sortProperty)){
@@ -124,7 +120,7 @@ public class BookController {
     @PatchMapping("/{id}")
     public String edit(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "book/edit";
+            return "books/edit";
         }
         else {
             bookService.edit(book);
@@ -194,10 +190,22 @@ public class BookController {
     @GetMapping("/search")
     public String search(Model model,
                          @RequestParam( required = false, name = "search_value") Object searchValue,
-                         @RequestParam( required = false, name = "search_by") String searchProperty)
+                         @RequestParam( required = false, name = "search_by") String searchProperty,
+                         @RequestParam( required = false, name = "page", defaultValue = "1") Integer pageNumber )
     {
         if(searchValue != null){
-            model.addAttribute("books", bookService.find(searchProperty, searchValue));
+            Page<Book> booksPage = bookService.find(searchProperty, searchValue, pageNumber-1);
+
+            List<Book> books = booksPage.getContent();
+            model.addAttribute("books", books);
+
+            if(books.isEmpty()){
+                return "books/search";
+            }
+            
+            model.addAttribute("currentPage", pageNumber);
+            model.addAttribute("totalPages", booksPage.getTotalPages());
+            model.addAttribute("pagesList", getPageList(pageNumber, booksPage.getTotalPages()));
         }
 
         return "books/search";
@@ -208,6 +216,12 @@ public class BookController {
 
         if(totalPages <= 9){
             for (int i = 1; i <= totalPages; i++) {
+                pages.add(i);
+            }
+            return pages;
+        }
+        if(pageNumber == totalPages){
+            for (int i = totalPages - 8; i <= totalPages; i++) {
                 pages.add(i);
             }
             return pages;

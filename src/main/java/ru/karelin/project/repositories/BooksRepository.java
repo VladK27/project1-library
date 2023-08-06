@@ -1,5 +1,7 @@
 package ru.karelin.project.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.karelin.project.models.Book;
@@ -18,4 +20,9 @@ public interface BooksRepository extends JpaRepository<Book, Integer> {
     List<Book> findAllByAuthorStartingWith(String title);
     List<Book> findAllByYear(Integer year);
 
+    Page<Book> findAllByOwner(Person person, Pageable pageable);
+
+    Page<Book> findAllByTitleStartingWith(String title, Pageable pageable);
+    Page<Book> findAllByAuthorStartingWith(String author, Pageable pageable);
+    Page<Book> findAllByYear(Integer year, Pageable pageable);
 }

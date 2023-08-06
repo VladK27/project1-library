@@ -1,8 +1,12 @@
 package ru.karelin.project.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.karelin.project.models.Book;
 import ru.karelin.project.models.Person;
 import ru.karelin.project.repositories.PeopleRepository;
 
@@ -26,6 +30,17 @@ public class PersonService {
         return peopleRepository.findAll();
     }
 
+    public Page<Person> index(int pageNumber, int booksPerPage){
+
+        return peopleRepository.findAll(PageRequest.of(pageNumber, booksPerPage));
+    }
+
+    public Page<Person> index(int pageNumber, int booksPerPage, String sortProperty){
+
+        return peopleRepository.findAll(
+                PageRequest.of(pageNumber, booksPerPage, Sort.by(sortProperty)));
+    }
+
     public Optional<Person> show(int id){
 
         if(id == 0){
@@ -33,6 +48,25 @@ public class PersonService {
         }
 
         return peopleRepository.findById(id);
+    }
+
+    public Page<Person> find(String searchProperty, Object searchValue, Integer pageNumber) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, 10);
+
+        switch (searchProperty) {
+            case "name" -> {
+                return peopleRepository.findAllByNameStartingWith((String) searchValue, pageRequest);
+            }
+            case "surname" -> {
+                return peopleRepository.findAllBySurnameStartingWith((String) searchValue, pageRequest);
+            }
+            case "year_of_birth" -> {
+                return peopleRepository.findAllByYearOfBirth((Integer) searchValue, pageRequest);
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 
     @Transactional(readOnly = false)
@@ -53,4 +87,6 @@ public class PersonService {
     public Optional<Person> show(String name, String surname) {
         return peopleRepository.findByNameAndSurname(name, surname);
     }
+
+
 }

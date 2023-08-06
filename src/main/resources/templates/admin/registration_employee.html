@@ -73,8 +73,7 @@
     <div class="role">
       <label for="role">Role: </label>
       <select id="role" name="role">
-        <option value="ROLE_MANAGER" >Manager</option>
-        <option value="ROLE_ADMIN" >Admin</option>
+        <option th:each="role : ${roles}" th:value="${role.name()}" th:text="${role.name().substring(5)}" >role</option>
       </select>
     </div>
 

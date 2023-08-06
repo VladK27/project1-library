@@ -4,69 +4,153 @@
     <meta charset="UTF-8">
     <title th:text="${person.getFullName()}"></title>
     <style>
-        .user {
-            padding: 10px;
-            margin: auto;
-            font-weight: bolder;
-            font-size: 21px;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            font-size: 16px;
+        }
+        .user-info {
+            max-width: 400px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: rgba(0,0,0,0.44) 0 0 7px;
+
+        }
+        .user p span{
+            font-weight: bold;
+        }
+        .user p{
+            font-weight: normal;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
         }
 
-        .books {
-            padding: 5px;
-        }
-
-        .info {
-            margin: auto;
-        }
         .book{
-            width: 300px;
-            margin-bottom: 8px;
-            margin-left: 15px;
-            text-decoration: none;
+            height: 45px;
+            width: 400px;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            box-shadow: rgba(0,0,0,0.44) 0 0 7px;
+
         }
         .book-info{
-            font-weight: bolder;
+            width: 395px;
+            height: 100%;
+            padding-left: 5px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .book-info, .book{
+            border-radius: 4px;
+        }
+
+        .buttons {
+            display:flex;
+            margin-top: 30px;
+        }
+
+        .edit-button,
+        .delete-button,
+        .nav-top-buttons{
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 30px;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+        }
+
+        #top{
+            justify-content: space-between;
+            margin-bottom: 40px;
+            margin-top: 0;
+        }
+
+        #top button{
+            background-color: #007BFF;
+        }
+        .pages {
+            height: 30px;
+            width: 400px;
+            display: flex;
+            flex-direction: row;
+            padding: 5px;
+            margin-top: 10px;
+            font-family: "Arial", sans-serif;
+        }
+
+        .pages a {
+            color: #151c2c;
+            font-size: 19px;
+            margin-left: 5px;
+            margin-right: 5px;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-<a href="/people">
-    <button><- To main page</button>
-</a>
 
-<fieldset class="info">
-    <legend>Reader</legend>
+<div class="user-info">
+    <div class="buttons" id="top">
+        <a href="/people"><button class="nav-top-buttons"><- To readers list page</button></a>
+        <a href="/employee/profile"><button class="nav-top-buttons">To main page</button></a>
+    </div>
 
     <div class="user">
-        <p th:text="${person.getFullName()} + ', ' + ${person.yearOfBirth}">name + surname, year of birth</p>
+        <h4>Reader's info:</h4>
+        <p>Name: <span class="name" th:text="${person.name}">name</span></p>
+        <p>Surname: <span class="surname" th:text="${person.surname}">surname</span></p>
+        <p>Year of birth: <span class="year-of-birth" th:text="${person.yearOfBirth}">year of birth</span></p>
     </div>
 
     <hr>
-
-        <legend>Books:</legend>
-        <div class="books" th:each="book : ${books}" th:if="!${books.isEmpty()}">
-            <fieldset th:if="${book.isOverdue}" style="background: rgba(173,55,55,0.43)" class="book">
-                <a class="book-info" th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
+    <h4>Books:</h4>
+    <div class="books" th:if="!${books.isEmpty()}">
+        <div class="book" th:each="book : ${books}" >
+            <div class="book-info" th:if="${book.isOverdue}" style="background: rgba(173,55,55,0.43)">
+                <a th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
                 <div style="text-decoration-line:underline ">The book is overdue!</div>
-            </fieldset>
-            <fieldset th:unless="${book.isOverdue}" class="book">
-                <a class="book-info" th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
-            </fieldset>
+            </div>
+            <div class="book-info" th:unless="${book.isOverdue}">
+                <a th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
+            </div>
         </div>
+    </div>
 
     <p th:unless="!${books.isEmpty()}">Reader has no books</p>
     <hr>
-    <a th:href="@{{id}/edit (id = ${person.id}) }">
-        <button>Edit</button>
-    </a>
-    <hr>
-</fieldset>
 
-<form th:method="DELETE" th:action="@{#}">
-    <a>
-        <button>Delete</button>
-    </a>
-</form>
+    <nav class="pages">
+        <div th:if="${pagesList.get(0)} != 1"><a th:href="@{/people/{id}?page=1(id = ${person.id})}">1</a>...</div>
+        <div th:each="i : ${pagesList}">
+            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{/people/{id}?page={i}(i = ${i}, id = ${person.id}) }">page number</a>
+            <div th:unless="${i} != ${currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">
+                |<a th:text="${i}" th:href="@{/people/{id}?page={i}(i = ${i}, id = ${person.id}) }">page number</a>|
+            </div>
+        </div>
+        <div th:if="${pagesList.get(pagesList.size()-1) != totalPages}">...
+            <a th:href="@{/people/{id}?page={last}(id = ${person.id}, last = ${totalPages}) }" th:text="${totalPages}"></a></div>
+    </nav>
 
+    <div class="buttons">
+        <a th:href="@{{id}/edit?page={page}(id = ${person.id}, page = ${param.page}) }"><button class="edit-button">Edit</button></a>
+        <form th:method="DELETE" th:action="@{#}">
+            <a><button class="delete-button">Delete</button></a>
+        </form>
+    </div>
+</div>
 </body>
 </html>

@@ -1,37 +1,104 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="'id:' + ${book.id} + ' Book'">book</title>
+    <title>Book Information Page</title>
 </head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .book-info {
+        max-width: 400px;
+        margin: 0 auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 20px;
+        box-shadow: rgba(0,0,0,0.44) 0 0 7px;
+    }
+
+    .book-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .book-author {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .book-year {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .book-owner {
+        font-size: 16px;
+        color: #555;
+        margin-top: 40px;
+    }
+
+    .buttons {
+        display:flex;
+        margin-top: 30px;
+    }
+
+    .edit-button,
+    .delete-button,
+    .nav-top-buttons{
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 30px;
+    }
+
+    .delete-button {
+        background-color: #dc3545;
+    }
+
+    #top{
+        justify-content: space-between;
+        margin-bottom: 40px;
+        margin-top: 0;
+    }
+
+    #top button{
+        background-color: #007BFF;
+    }
+
+</style>
 <body>
-<a th:href="@{/books?page={page}(page = ${param.page}) }" href="/books"><button><- To books list page</button></a>
-
-  <fieldset>
-    <legend>Book information</legend>
-    <div class="info">
-      <p>Title: "<span th:text="${book.title}">title</span>"
-      <br>
-      <p>Year: <span th:text="${book.year}">year</span>
-      <br>
-      <p>Author: <span th:text="${book.author}">author</span>
+<div class="book-info">
+    <div class="buttons" id="top">
+        <a th:href="@{/books?page={page}(page = ${param.page}) }"><button class="nav-top-buttons"><- To books list page</button></a>
+        <a href="/employee/profile"><button class="nav-top-buttons">To main page</button></a>
     </div>
+    <h2 class="book-title">Title: "<span th:text="${book.title}">title</span>"</h2>
+    <p class="book-author">Author: <span th:text="${book.author}">author</span></p>
+    <p class="book-year">Year of Publication: <span th:text="${book.year}">year</span></p>
     <hr>
-    <div >
-      <p th:if="${book.owner != null}">
-        Owner: <a th:text="${ownerName}" th:href="@{/people/{id}(id = ${ownerId})}">owner name</a>
-      </p>
+    <div class="book-owner">
+        <p th:if="${book.owner != null}">
+            Owner: <a th:text="${ownerName}" th:href="@{/people/{id}(id = ${ownerId})}">owner name</a>
+        </p>
 
-      <p th:unless="${book.owner != null}">
-        Book in library
-      </p>
+        <p th:unless="${book.owner != null}">
+            Book in library
+        </p>
     </div>
-    <hr>
-    <a th:href="@{{id}/edit?page={page}(id = ${book.id}, page = ${param.page}) }"><button>Edit</button></a>
-
-  </fieldset>
-<form th:method="DELETE" th:action="@{#}">
-  <a><button>Delete</button></a>
-</form>
+    <div class="buttons">
+        <a th:href="@{{id}/edit?page={page}(id = ${book.id}, page = ${param.page}) }"><button class="edit-button">Edit</button></a>
+        <form th:method="DELETE" th:action="@{#}">
+            <a><button class="delete-button">Delete</button></a>
+        </form>
+    </div>
+</div>
 </body>
 </html>

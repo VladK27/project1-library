@@ -1,16 +1,125 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Readers</title>
 </head>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+    }
+
+    .pages {
+        height: 30px;
+        width: 400px;
+        display: flex;
+        flex-direction: row;
+        padding: 5px;
+        margin-top: 10px;
+        font-family: "Arial", sans-serif;
+    }
+
+    .pages a {
+        color: #151c2c;
+        font-size: 19px;
+        margin-left: 5px;
+        margin-right: 5px;
+        text-decoration: none;
+    }
+
+    .main {
+        width: 500px;
+        border-radius: 5px;
+        padding: 30px;
+        padding-top: 0;
+        background-color: #ffffff;
+        box-shadow: gray 0 0 7px;
+    }
+
+    .reader {
+        width: 400px;
+        height: 30px;
+        padding-top: 10px;
+        margin-bottom: 20px;
+        margin-left: 15px;
+        padding-left: 15px;
+        border-radius: 5px;
+        box-shadow: gray 0 0 5px;
+        font-size: 19px;
+        font-family: "Arial", sans-serif;
+    }
+
+    .reader a {
+        text-decoration-line: none;
+    }
+
+    button {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .nav-top {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding-top: 20px;
+    }
+
+    .custom-heading {
+        font-size: 24px;
+        font-weight: bold;
+        color: black;
+        text-align: center;
+        margin-top: 20px;
+        font-family: "Arial", sans-serif;
+    }
+</style>
 <body>
-<p><a href="/"><button><- To main page</button></a></p>
-<a href="people/new"><button>Add new reader</button></a>
-<h4>List of readers</h4>
-<div th:each="person : ${people}">
-    <br/>
-    <a th:href="@{/people/{id}(id = ${person.id}) }" th:text="${person.getFullName()}">full name</a>
+<div class="main">
+
+    <div class="nav-top">
+        <a href="/employee/profile">
+            <button><- To main page</button>
+        </a>
+        <a href="people/new">
+            <button>Add new reader</button>
+        </a>
+    </div>
+
+    <h4 class="custom-heading">Readers</h4>
+
+    <hr style="width: 480px; margin-top: 30px; margin-bottom: 20px">
+    <div class="readers">
+        <div class="reader" th:each="reader : ${people}">
+            <a class="reader-info" th:href="@{/people/{id}(id = ${reader.id}) }"
+               th:text="${reader.getFullName() + ', ' + reader.yearOfBirth}">Name</a>
+            <br>
+        </div>
+    </div>
+
+    <nav class="pages">
+        <div th:if="${pagesList.get(0)} != 1"><a href="/people?page=1">1</a>...</div>
+        <div th:each="i : ${pagesList}">
+            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{people?page={i}(i = ${i}) }">page number</a>
+            <div th:unless="${i} != ${currentPage}"
+                 style="font-size:21px;font-weight: bolder; text-decoration-line: underline">|<a th:text="${i}"
+                                                                                                 th:href="@{people?page={i}(i = ${i}) }">page
+                number</a>|
+            </div>
+        </div>
+        <div th:if="${pagesList.get(pagesList.size()-1) != totalPages}">...<a
+                th:href="@{people?page={last}(last = ${totalPages}) }" th:text="${totalPages}"></a></div>
+    </nav>
 </div>
 </body>
 </html>

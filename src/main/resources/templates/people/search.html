@@ -43,7 +43,7 @@
         box-shadow: gray 0 0 7px;
     }
 
-    .book {
+    .reader {
         width: 400px;
         height: 70px;
         margin-bottom: 20px;
@@ -53,12 +53,12 @@
         box-shadow: gray 0 0 7px;
     }
 
-    .book-info {
+    .reader-info {
         font-size: 19px;
         font-weight: bolder;
     }
 
-    .book a {
+    .reader a {
         text-decoration-line: none;
     }
 
@@ -148,49 +148,45 @@
 <body>
 <div class="main">
     <div class="nav-top">
-        <a href="/books"> <button><- to books page</button></a>
+        <a href="/people"> <button><- To readers page</button></a>
         <a href="/employee/profile"> <button> To main page </button></a>
     </div>
 <h3 class="custom-heading">Search</h3>
-    <form class="search-form" action="/books/search" method="get">
+    <form class="search-form" action="/people/search" method="get">
         <input placeholder="Search" id=search-input type="text" name="search_value" required th:value="${param.search_value}">
 
         <div>
             <label for="search-type">Search by: </label>
             <select id="search-type" name="search_by">
-                <option value="title">Title</option>
-                <option value="author">Author</option>
-                <option value="year">Year</option>
+                <option value="name">Name</option>
+                <option value="surname">Surname</option>
+                <option value="year_of_birth">Year of birth</option>
             </select>
         </div>
 
         <button type="submit">Search</button>
     </form>
     <hr style="width: 400px; margin: 25px">
-    <div th:if="${books} != null">
-        <div class="error-message" th:if="${books.isEmpty()}">Books not found</div>
-        <div th:unless="${books.isEmpty()}">
-            <div class="book" th:each="book : ${books}">
-                <a class="book-info" th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
+    <div th:if="${people} != null">
+        <div  class="error-message" th:if="${people.isEmpty()}">Readers not found</div>
+        <div th:unless="${people.isEmpty()}">
+            <div class="reader" th:each="person : ${people}">
+                <a class="reader-info" th:href="@{/people/{id}(id = ${person.id}) }" th:text="${person.getFullName() + ', ' + person.yearOfBirth}">name</a>
                 <br>
-                <div class="owner-info" th:if="${book.hasOwner()}">
-                    Owner: <a th:text="${book.owner.getFullName()}" th:href="@{/people/{id}(id = ${book.owner.id})}">owner name</a>
-                </div>
-                <div class="owner-info" th:unless="${book.hasOwner()}">Book in <a href="/people/0">library</a></div>
             </div>
         </div>
     </div>
 
     <nav class="pages" th:if="${pagesList} != null">
-        <div th:if="${pagesList.get(0)} != 1"><a th:href="@{/books/search?page=1&search_value={sv}&search_by={sb}(sv = ${param.search_value}, sb = ${param.search_by}) }">1</a>...</div>
+        <div th:if="${pagesList.get(0)} != 1"><a th:href="@{/people/search?page=1&search_value={sv}&search_by={sb}(sv = ${param.search_value}, sb = ${param.search_by}) }">1</a>...</div>
         <div th:each="i : ${pagesList}">
-            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{/books/search?page={i}&search_value={sv}&search_by={sb}(i = ${i}, sv = ${param.search_value}, sb = ${param.search_by}) }">page number</a>
+            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{/people/search?page={i}&search_value={sv}&search_by={sb}(i = ${i}, sv = ${param.search_value}, sb = ${param.search_by}) }">page number</a>
             <div th:unless="${i} != ${currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">
-                |<a th:text="${i}" th:href="@{/books/search?page={i}&search_value={sv}&search_by={sb}(i = ${i}, sv = ${param.search_value}, sb = ${param.search_by}) }">page number</a>|
+                |<a th:text="${i}" th:href="@{/people/search?page={i}&search_value={sv}&search_by={sb}(i = ${i}, sv = ${param.search_value}, sb = ${param.search_by}) }">page number</a>|
             </div>
         </div>
         <div th:if="${pagesList.get(pagesList.size()-1) != totalPages}">...<a
-                th:href="@{/books/search?page={last}&search_value={sv}&search_by={sb}(last = ${totalPages}, sv = ${param.search_value}, sb = ${param.search_by}) }" th:text="${totalPages}"></a></div>
+                th:href="@{/people/search?page={last}&search_value={sv}&search_by={sb}(last = ${totalPages}, sv = ${param.search_value}, sb = ${param.search_by}) }" th:text="${totalPages}"></a></div>
     </nav>
 </div>
 </body>

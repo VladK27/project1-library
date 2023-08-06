@@ -38,6 +38,7 @@ public class EmployeeController {
         }
 
         model.addAttribute("employee", credentialsOptional.get().getEmployee());
+        model.addAttribute("role", credentialsOptional.get().getRole().toString().substring(5));
         return "employee/profile";
     }
 }

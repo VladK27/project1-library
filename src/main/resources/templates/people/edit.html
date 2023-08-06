@@ -5,53 +5,103 @@
     <title>Edit reader</title>
 </head>
 <style>
-    fieldset{
-        width:fit-content;
-    }
-    .error{
-        color:darkred;
-        margin-left: 5px;
-    }
-    .form{
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
         display: flex;
-        flex-direction: column;
-        padding: 5px;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
     }
-    .container{
-        display: flex;
-        justify-content: left;
+    .edition-form {
+        margin-top: 30px;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+    }
+    .edition-form h2, h1 {
+        text-align: center;
+    }
+    .edition-form label {
+        display: block;
         margin-bottom: 5px;
     }
-    label{
-        width:100px;
+    .edition-form input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+    .edition-form input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .edition-form input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+    .error{
+        padding-top: 13px;
+        border-radius: 7px;
+        height: 30px;
+        text-align: center;
+        color: darkred;
+        background: rgba(173,55,55,0.44);
+        margin-bottom: 10px;
+    }
+    .nav-top-buttons{
+        padding: 5px;
+        width: 100%;
+        font-size: 16px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 30px;
+    }
+    #top{
+        justify-content: space-between;
+        margin-bottom: 40px;
+        margin-top: 0;
+    }
+    .buttons {
+        display:flex;
+        margin-top: 30px;
+    }
+    .buttons button:hover{
+        background-color: #0056b3;
     }
 </style>
 <body>
-<a th:href="@{/people/{id}(id = ${person.id}) }"><button><- To reader page</button></a>
-<fieldset>
-    <legend>Edit reader</legend>
+<div class="edition-form">
+    <div class="buttons" id="top">
+        <a th:href="@{/people/{id}?page={page}(id = ${person.id}, page = ${param.page}) }"><button class="nav-top-buttons"><- To reader</button></a>
+        <a href="/employee/profile"><button class="nav-top-buttons">To main page</button></a>
+    </div>
+    <h1>Edit</h1>
     <form th:object="${person}" th:method="PATCH" th:action="@{/people/{id}(id = ${person.id})}">
 
-        <div class="form">
-            <div class="container">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" th:value="${person.name}">
-                <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">message</span>
-            </div>
-            <div class="container">
+                <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">message</div>
+
                 <label for="surname">Surname</label>
                 <input type="text" id="surname" name="surname" th:value="${person.surname}">
-                <span class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">message</span>
-            </div>
-            <div class="container">
+                <div class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">message</div>
+
                 <label for="yearOfBirth">Year of birth</label>
                 <input type="text" id="yearOfBirth" name="yearOfBirth" th:value="${person.yearOfBirth}">
-                <span class="error" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">message</span>
-            </div>
-        </div>
-        <br>
-        <button type="submit" class="submit-button">Submit</button>
+                <div class="error" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">message</div>
+        <p></p>
+        <input type="submit" value="Submit">
+
     </form>
-</fieldset>
+</div>
 </body>
 </html>

@@ -1,45 +1,201 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Profile Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown button{
+            height: 100% ;
+        }
+
+        /* Dropdown button style */
+        .dropdown-button {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Dropdown content (hidden by default) */
+
+        /* Links inside the dropdown content */
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color of links on hover */
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        /* Show the dropdown content on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .header {
+            background-color: #007bff;
+            padding: 0;
+            height: 60px;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .header-buttons{
+            height: 100%;
+            width: 500px;
+            display: flex;
+        }
+        .dropdown-button{
+            height: 100%;
+        }
+        .header .header-buttons button {
+            border-radius: 0;
+            width: 100px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .header .header-buttons button:hover {
+            background-color:#025cbd;
+        }
+
+        #readers-button{
+            border-left:1px solid gray;
+            border-right:1px solid gray;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            display: none;
+        }
+
+        .profile-block {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .profile-info {
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .profile-info span {
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .logout-button {
+            width: 100px;
+            border: none;
+            height: 30px;
+            margin-right: 20px;
+            border-radius: 7px;
+            background-color: #df5764;
+            font-size: 15px;
+        }
+        .logout-button:hover {
+            background-color: #dc3545;
+        }
+
+    </style>
 </head>
-<style>
-    .info{
-        margin: 30px;
-        border-radius: 10px;
-        padding: 10px;
-        width: 300px;
-        background-color: #f0f0f0;
-        box-shadow: 3px 3px 10px black;
-    }
-    .info div{
-        display: flex;
-        margin: 5px;
-    }
-    .logout-button{
-        border: 1px gray solid;
-        width: 90px;
-        height: 30px;
-        border-radius: 10px;
-        font-size: 15px;
-        text-align: center;
-        background: gainsboro;
-    }
-    .logout-button:hover{
-        background: #b7b7b7;
-    }
-</style>
+
 <body>
+<div class="header">
+    <div class="header-buttons">
+        <div class="dropdown">
+            <button class="dropdown-button">Books</button>
+            <div class="dropdown-content">
+                <a href="/books">Books list</a>
+                <a href="/books/search">Books search</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-button" id="readers-button">Readers</button>
+            <div class="dropdown-content">
+                <a href="/people">Readers list</a>
+                <a href="/people/search">Readers search</a>
+            </div>
+        </div>
+        <a href="/books/control"><button class="dropdown-button">Manage</button></a>
+    </div>
     <form th:method="POST" th:action="@{/auth/logout}">
         <a><button class="logout-button">Logout</button></a>
     </form>
-    <div class="info">
-        <div>Name: <div th:text="${employee.name}"></div></div>
-        <div>Surname: <div th:text="${employee.surname}"></div></div>
-        <div>Year of birth: <div th:text="${employee.yearOfBirth}"></div></div>
-        <div>Email: <div th:text="${employee.email}"></div></div>
-        <div>Phone number: <div th:text="${employee.phoneNumber}"></div></div>
+</div>
+<div class="profile-block">
+    <h2>Employee Profile</h2>
+    <div class="profile-info">
+        <span>Name:</span>
+        <div th:text="${employee.name}">Name</div>
     </div>
+    <div class="profile-info">
+        <span>Surname:</span>
+        <div th:text="${employee.surname}">Surname</div>
+    </div>
+    <div class="profile-info">
+        <span>Year of Birth:</span>
+        <div th:text="${employee.yearOfBirth}">Year of birth</div>
+    </div>
+    <div class="profile-info">
+        <span>Email:</span>
+        <div th:text="${employee.email}">Email</div>
+    </div>
+    <div class="profile-info">
+        <span>Phone Number:</span>
+        <div th:text="${employee.phoneNumber}">Phone number</div>
+    </div>
+    <div class="profile-info">
+        <span>Role:</span>
+        <div th:text="${role}"></div>
+    </div>
+</div>
 </body>
+
 </html>

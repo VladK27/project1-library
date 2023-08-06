@@ -1,36 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Main</title>
-</head>
-<style>
-  .main{
-    border:2px solid gray;
-    padding: 10px;
-    width: 216px;
-  }
-  button{
-    margin: 5px;
-  }
-</style>
-<body>
-<h4>Library management</h4>
-<div class="main">
-  <div>
-    <a href="/people"><button>List of readers</button></a>
-    <a href="/books"><button>List of books</button></a>
-  </div>
-  <div>
-    <a href="/books/search"><button>Search books</button></a>
-  </div>
-  <div>
-    <a href="/people/0"><button>Check library storage</button></a>
-  </div>
-  <div>
-    <a href="/books/control"><button>Manage books</button></a>
-  </div>
-</div>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .login-button-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .login-button {
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Welcome to Library Management System</h1>
+    <p>To proceed, please log in using your manager credentials.</p>
+    <div class="login-button-container">
+        <a href="auth/login" class="login-button">Login</a>
+    </div>
+</div>
 </body>
+
 </html>

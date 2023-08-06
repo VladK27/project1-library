@@ -46,7 +46,7 @@ public class Person {
     private List<Book> books;
 
     @Transient
-    private static final Set<String> sortPropertiesSet = new HashSet<>(Set.of(
+    public static final Set<String> propertiesSet = new HashSet<>(Set.of(
             "id", "name", "surname", "yearOfBirth"
     ));
 

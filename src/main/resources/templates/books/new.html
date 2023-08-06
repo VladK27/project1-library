@@ -4,55 +4,105 @@
     <meta charset="UTF-8">
     <title>New book</title>
     <style>
-        fieldset{
-            width:fit-content;
-        }
-        .error{
-            color:darkred;
-            margin-left: 5px;
-        }
-        .form{
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
-            flex-direction: column;
-            padding: 5px;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
         }
-        .container{
-            display: flex;
-            justify-content: left;
+        .edition-form {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+        .edition-form h2, h1 {
+            text-align: center;
+        }
+        .edition-form label {
+            display: block;
             margin-bottom: 5px;
         }
-        label{
-            width:100px;
+        .edition-form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .edition-form input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .edition-form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .error{
+            padding-top: 13px;
+            border-radius: 7px;
+            height: 30px;
+            text-align: center;
+            color: darkred;
+            background: rgba(173,55,55,0.44);
+            margin-bottom: 10px;
+        }
+        .nav-top-buttons{
+            padding: 5px;
+            width: 100%;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 30px;
+        }
+        #top{
+            justify-content: space-between;
+            margin-bottom: 40px;
+            margin-top: 0;
+        }
+        .buttons {
+            display:flex;
+            margin-top: 30px;
+        }
+        .buttons button:hover{
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-<a href="/books"><button><- To main page</button></a>
-<fieldset>
-    <legend>Add new Book</legend>
+<div class="edition-form">
+    <div class="buttons" id="top">
+        <a href="/books"><button class="nav-top-buttons"><- To books page</button></a>
+        <a href="/employee/profile"><button class="nav-top-buttons">To main page</button></a>
+    </div>
+    <h1>New book</h1>
     <form th:object="${book}" th:method="POST" th:action="@{new}">
 
-        <div class="form">
-        <div class="container">
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title">
-            <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">message</span>
-        </div>
-        <div class="container">
-            <label for="author">Author</label>
-            <input type="text" id="author" name="author">
-            <span class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">message</span>
-        </div>
-        <div class="container">
-            <label for="year">Year</label>
-            <input type="text" id="year" name="year">
-            <span class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">message</span>
-        </div>
-        </div>
-            <p>
-        <button type="submit" class="submit-button">Submit</button>
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" th:value="${book.title}">
+        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">message</div>
+
+        <label for="author">Author</label>
+        <input type="text" id="author" name="author" th:value="${book.author}">
+        <div class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">message</div>
+
+        <label for="year">Year</label>
+        <input type="text" id="year" name="year" th:value="${book.year}">
+        <div class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">message</div>
+
+        <p></p>
+        <input type="submit" value="Submit">
 
     </form>
-</fieldset>
+</div>
 </body>
 </html>

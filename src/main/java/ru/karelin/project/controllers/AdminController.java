@@ -39,6 +39,8 @@ public class AdminController {
     public String registrationPage(
             Model model,
             @ModelAttribute("employee") Employee employee) {
+
+        model.addAttribute("roles", Role.values());
         return "admin/registration_employee";
     }
 
@@ -59,6 +61,7 @@ public class AdminController {
 
         if(bindingResult.hasErrors() || errorsCredentials.hasErrors()){
             model.addAttribute("errorsCredentials", errorsCredentials);
+            model.addAttribute("roles", Role.values());
             return "admin/registration_employee";
         }
 

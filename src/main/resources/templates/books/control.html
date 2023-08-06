@@ -1,54 +1,124 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Control</title>
+  <title>Set New Owner to Book</title>
+  <style>
+    /* Basic styles for the page */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 20px;
+      padding-top: 0;
+      box-shadow: #8a8a8a 0 0 7px;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #007BFF;
+    }
+
+    .instruction {
+      font-size: 16px;
+      color: #555;
+    }
+
+    .form-group {
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 16px;
+      color: #333;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .error-message,
+    .success-message{
+      padding: 13px;
+      border-radius: 7px;
+      text-align: center;
+      color: darkred;
+      background: rgba(173,55,55,0.44);
+      margin-bottom: 10px;
+    }
+    .success-message{
+      background-color: rgba(33, 127, 25, 0.34);
+      color: #426f01;
+    }
+
+    .button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    #navbar-top{
+      margin-top: 0;
+      display: flex;
+      justify-content: space-between;
+    }
+    #navbar-top a{
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
-<style>
-    .error{
-        color: darkred;
-    }
-    .success{
-        color:green;
-    }
-    .container{
-        width:fit-content;
-        display: flex;
-        justify-content: space-between;
-    }
-    fieldset{
-        display: flex;
-        justify-content: center;
-    }
-</style>
 <body>
-<p><a href="/"><button><- To main page</button></a></p>
-<p>-Select book, then select reader and press Submit button. Book will be set to reader.</p>
-<form th:method="PATCH" th:action="@{/books/control}">
-    <div class="container">
-        <fieldset>
-            <legend>Select book</legend>
-                <select class="books" name="bookId" id="books">
-                    <option th:each="book : ${books}" th:value="${book.id}" th:text="${book.title}">book</option>
-                </select>
-        </fieldset>
-        <fieldset>
-            <legend>Select reader or Library</legend>
-                <select class="readers" name="personId" id="readers">
-                    <option value="0" >Library</option>
-                    <option  th:each="person : ${people}" th:value="${person.id}" th:text="${person.getFullName()}">person</option>
-                </select>
-        </fieldset>
-    </div>
+<div class="container">
+  <div class="buttons" id="navbar-top">
+    <a href="/employee/profile"><button class="button"><-To main page</button></a>
+    <a href="/books"><button class="button">To books page</button></a>
+  </div>
+  <h2>Set New Owner to Book</h2>
+  <div class="instruction">
+    <p>- Select a book from the dropdown list.</p>
+    <p>- Then, select a new owner (reader) from the second dropdown list.</p>
+    <p>- Finally, press the "Submit" button to set the book's new owner.</p>
+  </div>
+  <form th:method="PATCH" th:action="@{/books/control}">
+  <div class="form-group">
+    <label for="bookSelect">Select Book:</label>
+    <select id="bookSelect" name="bookId">
+        <option th:each="book : ${books}" th:value="${book.id}" th:text="${book.title}">book</option>
+    </select>
+  </div>
 
-    <p><button type="submit">Submit</button></p>
+  <div class="form-group">
+    <label for="ownerSelect">Select New Owner:</label>
+    <select id="ownerSelect" name="personId">
+      <option value="0" >Library</option>
+      <option  th:each="person : ${people}" th:value="${person.id}" th:text="${person.getFullName()}">person</option>
+    </select>
+  </div>
 
-    <p class="error" th:if="${ownerError} != null" th:text="${ownerError}">error</p>
-    <p class="success" th:if="${successMessage} != null" th:text="${successMessage}">success</p>
+    <p class="error-message" th:if="${ownerError} != null" th:text="${ownerError}">error</p>
+    <p class="success-message" th:if="${successMessage} != null" th:text="${successMessage}">success</p>
 
-
-</form>
-
+  <button id="submitButton" class="button">Submit</button>
+  </form>
+</div>
 
 </body>
 </html>

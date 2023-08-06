@@ -1,83 +1,181 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Books</title>
 </head>
 <style>
+    body {
+        display: flex;
+        justify-content: center;
+    }
+
     .pages {
         height: 30px;
         width: 400px;
         display: flex;
         flex-direction: row;
         padding: 5px;
-        margin-top:10px;
+        margin-top: 10px;
+        font-family: "Arial", sans-serif;
     }
-    .pages a{
+
+    .pages a {
         color: #151c2c;
         font-size: 19px;
         margin-left: 5px;
         margin-right: 5px;
         text-decoration: none;
     }
-    .title_sort{
+
+    .title_sort {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
     }
-    body{
+    .title_sort label{
+        font-family: "Arial", sans-serif;
+    }
+    .title_sort button{
+        margin-top: 2px;
+    }
+
+    .main {
         width: 500px;
-        border: solid 2px black;
         border-radius: 5px;
         padding: 30px;
+        padding-top: 0;
+        background-color: #ffffff;
+        box-shadow: gray 0 0 7px;
     }
-    .book{
+
+    .book {
         width: 400px;
-        margin-bottom: 10px;
+        height: 70px;
+        margin-bottom: 20px;
         margin-left: 15px;
+        padding-left: 15px;
+        border-radius: 7px;
+        box-shadow: gray 0 0 7px;
     }
-    .book-info{
+
+    .book-info {
         font-size: 19px;
         font-weight: bolder;
     }
-    .book a{
+
+    .book a {
         text-decoration-line: none;
+    }
+
+    button {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    select {
+        width: 130px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        cursor: pointer;
+    }
+
+    select::-ms-expand {
+        display: none;
+    }
+
+    select::after {
+        content: "\25BC";
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+    .nav-top{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding-top: 20px;
+    }
+    .custom-heading {
+        font-size: 24px; /* Font size */
+        font-weight: bold; /* Bold font weight */
+        color: black; /* Blue color for the text */
+        text-align: center; /* Center-align the heading */
+        margin-top: 20px; /* Add some top margin for spacing */
+        font-family: "Arial", sans-serif;
+    }
+    .owner-info{
+        position: relative;
+        bottom: -22px;
     }
 </style>
 <body>
-<p><a href="/"><button><- To main page</button></a></p>
-<a href="books/new"><button>Add new book</button></a>
-<h4>List of books</h4>
-<div class="title_sort">
-    <form action="/books">
-        <label for="sort">Sort by:</label>
-        <select id="sort" name="sort_by">
-            <option value="title">Title</option>
-            <option value="author">Author</option>
-            <option value="year">Year</option>
-        </select>
-        <input type="hidden" name="page" th:value="${currentPage}">
-        <button type="submit">Sort</button>
-    </form>
-</div>
+<div class="main">
 
-<hr style="width: 480px">
-
-<fieldset class="book" th:each="book : ${books}">
-    <a class="book-info" th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
-    <br>
-    <div class="owner-info" th:if="${book.hasOwner()}">
-        Owner: <a th:text="${book.owner.getFullName()}" th:href="@{/people/{id}(id = ${book.owner.id})}">owner name</a>
+    <div class="nav-top">
+        <a href="/employee/profile">
+            <button><- To main page</button>
+        </a>
+        <a href="books/new">
+            <button>Add new book</button>
+        </a>
     </div>
-    <div class="owner-info" th:unless="${book.hasOwner()}">Book in <a href="/people/0">library</a></div>
-</fieldset>
+
+    <h4 class="custom-heading">Books</h4>
+    <div class="title_sort">
+        <form action="/books">
+            <label for="sort">Sort by:</label>
+            <select id="sort" name="sort_by">
+                <option value="title">Title</option>
+                <option value="author">Author</option>
+                <option value="year">Year</option>
+            </select>
+            <input type="hidden" name="page" th:value="${currentPage}">
+            <button type="submit">Sort</button>
+        </form>
+        <a href="/books/search"><button>Search page</button></a>
+    </div>
+
+    <hr style="width: 480px; margin-top: 30px; margin-bottom: 20px">
+    <div class="books">
+        <div class="book" th:each="book : ${books}">
+            <a class="book-info" th:href="@{/books/{id}(id = ${book.id}) }"
+               th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
+            <br>
+            <div class="owner-info" th:if="${book.hasOwner()}">
+                Owner: <a th:text="${book.owner.getFullName()}" th:href="@{/people/{id}(id = ${book.owner.id})}">owner
+                name</a>
+            </div>
+            <div class="owner-info" th:unless="${book.hasOwner()}">Book in <a href="/people/0">library</a></div>
+        </div>
+    </div>
+
 
     <nav class="pages">
         <div th:if="${pagesList.get(0)} != 1"><a href="/books?page=1">1</a>...</div>
         <div th:each="i : ${pagesList}">
-            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{books?page={i}(i = ${i}) }" >page number</a>
-            <div th:unless="${i} != ${currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">|<a  th:text="${i}" th:href="@{books?page={i}(i = ${i}) }" >page number</a>|</div>
+            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{books?page={i}(i = ${i}) }">page number</a>
+            <div th:unless="${i} != ${currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">
+                |<a th:text="${i}" th:href="@{books?page={i}(i = ${i}) }">page number</a>|
+            </div>
         </div>
-        <div th:if="${pagesList.get(pagesList.size()-1) != totalPages}">...<a th:href="@{books?page={last}(last = ${totalPages}) }" th:text="${totalPages}"></a></div>
+        <div th:if="${pagesList.get(pagesList.size()-1) != totalPages}">...<a
+                th:href="@{books?page={last}(last = ${totalPages}) }" th:text="${totalPages}"></a></div>
     </nav>
+</div>
 </body>
 </html>

@@ -12,6 +12,7 @@ import ru.karelin.project.models.Book;
 import ru.karelin.project.models.Person;
 import ru.karelin.project.repositories.BooksRepository;
 
+import java.awt.print.Pageable;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -45,23 +46,37 @@ public class BookService {
                 PageRequest.of(pageNumber, booksPerPage, Sort.by(sortProperty)));
     }
 
+    //by id
     public Optional<Book> show(int id){
         return booksRepository.findById(id);
     }
 
-    //byTitle
+    //by title
     public Optional<Book> show(String title){
         return booksRepository.findByTitle(title);
     }
 
-    //byOwner
+    //by owner id
     public List<Book> showByOwnerId(int ownerId){
-        Session session = entityManager.unwrap(Session.class);
-        Person personProxy = null;
-        if(ownerId != 0){
-            personProxy = session.getReference(Person.class, ownerId);
+        //if ownerId == null - book in library; Owner == null
+        if(ownerId == 0){
+            return booksRepository.findByOwner(null);
         }
+
+        Session session = entityManager.unwrap(Session.class);
+        Person personProxy = session.getReference(Person.class, ownerId);
+
         return booksRepository.findByOwner(personProxy);
+    }
+
+    public Page<Book> show(int ownerId, int pageNumber){
+        if(ownerId == 0){
+            return booksRepository.findAllByOwner(null, PageRequest.of(pageNumber, 10));
+        }
+
+        Session session = entityManager.unwrap(Session.class);
+        Person ownerProxy = session.getReference(Person.class, ownerId);
+        return booksRepository.findAllByOwner(ownerProxy, PageRequest.of(pageNumber, 10));
     }
 
     @Transactional(readOnly = false)
@@ -96,18 +111,18 @@ public class BookService {
         book.setOwner(reader);
     }
 
-    public List<Book> find(String searchProperty, Object searchValue) {
-        List<Book> books;
+    public Page<Book> find(String searchProperty, Object searchValue, Integer pageNumber) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, 10);
 
         switch (searchProperty) {
             case "title" -> {
-                return booksRepository.findAllByTitleStartingWith((String) searchValue);
+                return booksRepository.findAllByTitleStartingWith((String) searchValue, pageRequest);
             }
             case "author" -> {
-                return booksRepository.findAllByAuthorStartingWith((String) searchValue);
+                return booksRepository.findAllByAuthorStartingWith((String) searchValue, pageRequest);
             }
             case "year" -> {
-                return booksRepository.findAllByYear((Integer) searchValue);
+                return booksRepository.findAllByYear((Integer) searchValue, pageRequest);
             }
             default -> {
                 return null;
