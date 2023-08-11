@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
-    <meta charset="UTF-8">
-    <title>Registration</title>
+
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -47,7 +46,13 @@
         background-color: #0056b3;
       }
       .error-message{
+        padding-top: 13px;
+        border-radius: 7px;
+        height: 30px;
+        text-align: center;
         color: darkred;
+        background: rgba(173,55,55,0.44);
+        margin-bottom: 10px;
       }
       .role{
         display: flex;
@@ -60,7 +65,7 @@
 <div class="registration-form">
   <h1>Registration form</h1>
   <hr>
-  <form th:action="@{/admin/register}" th:method="POST" th:object="${employee}">
+  <form th:action="@{/admin/employees/register}" th:method="POST" th:object="${employee}">
     <h2>Credentials</h2>
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required>
@@ -105,6 +110,7 @@
 
     <p></p>
     <input type="submit" value="Register">
+
   </form>
 </div>
 </body>

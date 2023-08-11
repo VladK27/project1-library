@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Profile Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+
+    .header .header-buttons button {
+      border-radius: 0;
+      width: 100px;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .header .header-buttons button:hover {
+      background-color:#025cbd;
+    }
+
+    .profile-block {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .profile-info {
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .profile-info span {
+      font-weight: bold;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .buttons {
+      display:flex;
+      justify-content: space-between;
+      margin-top: 50px;
+    }
+
+    .delete-button,
+    .nav-top-buttons{
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .delete-button {
+      background-color: #dc3545;
+    }
+
+    #top{
+      justify-content: space-between;
+      margin-bottom: 40px;
+      margin-top: 0;
+    }
+
+    #top button{
+      background-color: #007BFF;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="profile-block">
+
+  <div class="buttons" id="top">
+    <a href="/admin/employees"><button class="nav-top-buttons"><- To employees list page</button></a>
+    <a href="/employee/profile"><button class="nav-top-buttons">To main page</button></a>
+  </div>
+
+  <h2>Employee Profile</h2>
+  <div class="profile-info">
+    <span>Name:</span>
+    <div th:text="${employee.name}">Name</div>
+  </div>
+  <div class="profile-info">
+    <span>Surname:</span>
+    <div th:text="${employee.surname}">Surname</div>
+  </div>
+  <div class="profile-info">
+    <span>Year of Birth:</span>
+    <div th:text="${employee.yearOfBirth}">Year of birth</div>
+  </div>
+  <div class="profile-info">
+    <span>Email:</span>
+    <div th:text="${employee.email}">Email</div>
+  </div>
+  <div class="profile-info">
+    <span>Phone Number:</span>
+    <div th:text="${employee.phoneNumber}">Phone number</div>
+  </div>
+  <div class="profile-info">
+    <span>Role:</span>
+    <div th:text="${role}"></div>
+  </div>
+
+  <div class="buttons">
+    <form th:method="DELETE" th:action="@{#}">
+      <a><button class="delete-button">Delete</button></a>
+    </form>
+  </div>
+
+</div>
+</body>
+
+</html>
