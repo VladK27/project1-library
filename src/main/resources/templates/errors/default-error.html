@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="errorCode">error code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .error-container {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .error-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .go-back-button {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .error-code{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .error-code span{
+            color: #893039;
+        }
+    </style>
+</head>
+
+<body>
+<div class="error-container">
+    <div class="error-title">Oops! Something went wrong</div>
+    <div class="error-message">We're sorry, but an error occurred while processing your request.</div>
+    <div class="error-code">Code:<span th:text="${errorCode}" class="error-code">300</span></div>
+    <a href="/" class="go-back-button">Go Back to Home</a>
+</div>
+</body>
+
+</html>

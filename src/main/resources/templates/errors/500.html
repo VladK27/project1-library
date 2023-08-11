@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>500 Server error</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f3f3;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .error-container {
+      text-align: center;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .error-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .error-message {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .go-back-button {
+      background-color: #007bff;
+      color: #ffffff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .error-img{
+      width: 300px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="error-container">
+  <img src="https://media.istockphoto.com/id/525527483/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%BF%D0%B5%D1%87%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9-robot-%D1%81%D0%BD%D0%BE%D1%81%D0%B0-%D1%87%D0%B5%D1%80%D1%82%D0%B5%D0%B6.jpg?s=612x612&w=0&k=20&c=yTeLHGpOg6Yc_zDOQtivvhFWyYJL56Ow_klRNAqtvLE=" class="error-img" alt="Broken Robot">
+  <div class="error-title">500 - Server error</div>
+  <div class="error-message">We're sorry, but a server error occurred.</div>
+  <a href="/" class="go-back-button">Go Back to Home</a>
+</div>
+</body>
+
+</html>
