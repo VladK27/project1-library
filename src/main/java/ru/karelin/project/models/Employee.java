@@ -43,6 +43,10 @@ public class Employee {
     //@Pattern(regexp = "\"^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$\"", message = "Email wrong pattern!")
     private String email;
 
+    public String getFullName(){
+        return name + " " + surname;
+    }
+
     @OneToOne(mappedBy = "employee")
     private EmployeeCredentials credentials;
 }

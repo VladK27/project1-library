@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.karelin.project.models.Book;
 import ru.karelin.project.models.Person;
 import ru.karelin.project.repositories.PeopleRepository;
 
@@ -17,7 +16,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class PersonService {
 
-    private final static Person LIBRARY = new Person(0, "Library", "storage", 2006);
+    private final static Person LIBRARY = new Person(0, "Library", "storage");
 
     private final PeopleRepository peopleRepository;
 
@@ -41,7 +40,7 @@ public class PersonService {
                 PageRequest.of(pageNumber, booksPerPage, Sort.by(sortProperty)));
     }
 
-    public Optional<Person> show(int id){
+    public Optional<Person> show(Integer id){
 
         if(id == 0){
             return Optional.of(LIBRARY);
@@ -50,36 +49,40 @@ public class PersonService {
         return peopleRepository.findById(id);
     }
 
-    public Page<Person> find(String searchProperty, Object searchValue, Integer pageNumber) {
+    public Page<Person> find(String searchProperty, String searchValue, Integer pageNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber, 10);
 
         switch (searchProperty) {
             case "name" -> {
-                return peopleRepository.findAllByNameStartingWith((String) searchValue, pageRequest);
+                return peopleRepository.findAllByNameStartingWith(searchValue, pageRequest);
             }
             case "surname" -> {
-                return peopleRepository.findAllBySurnameStartingWith((String) searchValue, pageRequest);
+                return peopleRepository.findAllBySurnameStartingWith(searchValue, pageRequest);
             }
             case "year_of_birth" -> {
-                return peopleRepository.findAllByYearOfBirth((Integer) searchValue, pageRequest);
+                try{
+                    return peopleRepository.findAllByYearOfBirth(Integer.valueOf(searchValue), pageRequest);
+                }catch (NumberFormatException e){
+                    return Page.empty();
+                }
             }
             default -> {
-                return null;
+                return Page.empty();
             }
         }
     }
 
-    @Transactional(readOnly = false)
+    @Transactional()
     public void save(Person person){
         peopleRepository.save(person);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional()
     public void edit(Person person){
         peopleRepository.save(person);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional()
     public void delete(int id){
         peopleRepository.deleteById(id);
     }

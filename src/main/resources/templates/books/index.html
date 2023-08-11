@@ -111,16 +111,24 @@
         padding-top: 20px;
     }
     .custom-heading {
-        font-size: 24px; /* Font size */
-        font-weight: bold; /* Bold font weight */
-        color: black; /* Blue color for the text */
-        text-align: center; /* Center-align the heading */
-        margin-top: 20px; /* Add some top margin for spacing */
+        font-size: 24px;
+        font-weight: bold;
+        color: black;
+        text-align: center;
+        margin-top: 20px;
         font-family: "Arial", sans-serif;
     }
     .owner-info{
         position: relative;
         bottom: -22px;
+    }
+    .error-message{
+        padding: 13px;
+        border-radius: 7px;
+        text-align: center;
+        color: darkred;
+        background: rgba(173,55,55,0.44);
+        margin-bottom: 10px;
     }
 </style>
 <body>
@@ -164,17 +172,18 @@
         </div>
     </div>
 
+    <div class="error-message" th:if="${books.isEmpty()}">No books found</div>
 
-    <nav class="pages">
-        <div th:if="${pagesList.get(0)} != 1"><a href="/books?page=1">1</a>...</div>
-        <div th:each="i : ${pagesList}">
-            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{books?page={i}(i = ${i}) }">page number</a>
-            <div th:unless="${i} != ${currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">
+    <nav class="pages"  th:if="${pageConfig} != null">
+        <div th:if="${pageConfig.pages.get(0)} != 1"><a href="/books?page=1">1</a>...</div>
+        <div th:each="i : ${pageConfig.pages}">
+            <a th:if="${i} != ${pageConfig.currentPage}" th:text="${i}" th:href="@{books?page={i}(i = ${i}) }">page number</a>
+            <div th:unless="${i} != ${pageConfig.currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">
                 |<a th:text="${i}" th:href="@{books?page={i}(i = ${i}) }">page number</a>|
             </div>
         </div>
-        <div th:if="${pagesList.get(pagesList.size()-1) != totalPages}">...<a
-                th:href="@{books?page={last}(last = ${totalPages}) }" th:text="${totalPages}"></a></div>
+        <div th:if="${pageConfig.pages.get(pageConfig.pages.size()-1) != pageConfig.totalPages}">...<a
+                th:href="@{books?page={last}(last = ${pageConfig.totalPages}) }" th:text="${pageConfig.totalPages}"></a></div>
     </nav>
 </div>
 </body>

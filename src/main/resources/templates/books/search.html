@@ -37,8 +37,7 @@
     .main {
         width: 500px;
         border-radius: 5px;
-        padding: 30px;
-        padding-top: 0;
+        padding: 0 30px 30px;
         background-color: #ffffff;
         box-shadow: gray 0 0 7px;
     }
@@ -181,16 +180,16 @@
         </div>
     </div>
 
-    <nav class="pages" th:if="${pagesList} != null">
-        <div th:if="${pagesList.get(0)} != 1"><a th:href="@{/books/search?page=1&search_value={sv}&search_by={sb}(sv = ${param.search_value}, sb = ${param.search_by}) }">1</a>...</div>
-        <div th:each="i : ${pagesList}">
-            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{/books/search?page={i}&search_value={sv}&search_by={sb}(i = ${i}, sv = ${param.search_value}, sb = ${param.search_by}) }">page number</a>
-            <div th:unless="${i} != ${currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">
+    <nav class="pages" th:if="${pageConfig} != null">
+        <div th:if="${pageConfig.pages.get(0)} != 1"><a th:href="@{/books/search?page=1&search_value={sv}&search_by={sb}(sv = ${param.search_value}, sb = ${param.search_by}) }">1</a>...</div>
+        <div th:each="i : ${pageConfig.pages}">
+            <a th:if="${i} != ${pageConfig.currentPage}" th:text="${i}" th:href="@{/books/search?page={i}&search_value={sv}&search_by={sb}(i = ${i}, sv = ${param.search_value}, sb = ${param.search_by}) }">page number</a>
+            <div th:unless="${i} != ${pageConfig.currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">
                 |<a th:text="${i}" th:href="@{/books/search?page={i}&search_value={sv}&search_by={sb}(i = ${i}, sv = ${param.search_value}, sb = ${param.search_by}) }">page number</a>|
             </div>
         </div>
-        <div th:if="${pagesList.get(pagesList.size()-1) != totalPages}">...<a
-                th:href="@{/books/search?page={last}&search_value={sv}&search_by={sb}(last = ${totalPages}, sv = ${param.search_value}, sb = ${param.search_by}) }" th:text="${totalPages}"></a></div>
+        <div th:if="${pageConfig.pages.get(pageConfig.pages.size()-1) != pageConfig.totalPages}">...<a
+                th:href="@{/books/search?page={last}&search_value={sv}&search_by={sb}(last = ${pageConfig.totalPages}, sv = ${param.search_value}, sb = ${param.search_by}) }" th:text="${pageConfig.totalPages}"></a></div>
     </nav>
 </div>
 </body>

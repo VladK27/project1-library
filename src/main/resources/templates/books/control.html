@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Set New Owner to Book</title>
   <style>
@@ -97,11 +97,12 @@
     <p>- Then, select a new owner (reader) from the second dropdown list.</p>
     <p>- Finally, press the "Submit" button to set the book's new owner.</p>
   </div>
+
   <form th:method="PATCH" th:action="@{/books/control}">
   <div class="form-group">
     <label for="bookSelect">Select Book:</label>
     <select id="bookSelect" name="bookId">
-        <option th:each="book : ${books}" th:value="${book.id}" th:text="${book.title}">book</option>
+        <option th:each="book : ${books}" th:value="${book.id}" th:text="${book.title}" th:selected="${#strings.equals(param.bookId, #strings.toString(book.id))}" >book</option>
     </select>
   </div>
 
@@ -109,7 +110,7 @@
     <label for="ownerSelect">Select New Owner:</label>
     <select id="ownerSelect" name="personId">
       <option value="0" >Library</option>
-      <option  th:each="person : ${people}" th:value="${person.id}" th:text="${person.getFullName()}">person</option>
+      <option th:each="person : ${people}" th:value="${person.id}" th:text="${person.getFullName()}" th:selected="${#strings.equals(param.personId, #strings.toString(person.id))}">person</option>
     </select>
   </div>
 

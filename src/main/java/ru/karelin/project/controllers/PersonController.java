@@ -11,9 +11,9 @@ import ru.karelin.project.models.Book;
 import ru.karelin.project.models.Person;
 import ru.karelin.project.services.BookService;
 import ru.karelin.project.services.PersonService;
+import ru.karelin.project.utility.PageConfig;
 import ru.karelin.project.utility.PersonValidator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +32,6 @@ public class PersonController {
         this.personValidator = personValidator;
     }
 
-    //Get all people from dao and bring to view
     @GetMapping()
     public String index(Model model,
                         @RequestParam(required = false, defaultValue = "1", name = "page") int pageNumber,
@@ -55,10 +54,12 @@ public class PersonController {
         }
 
         //pagination
-        model.addAttribute("currentPage", pageNumber);
-        model.addAttribute("totalPages", peoplePage.getTotalPages());
         model.addAttribute("people", peoplePage.getContent());
-        model.addAttribute("pagesList", getPageList(pageNumber, peoplePage.getTotalPages()));
+
+        if(!(peoplePage.getTotalPages() <= 1)){
+            PageConfig pageConfig = new PageConfig(pageNumber, peoplePage.getTotalPages());
+            model.addAttribute("pageConfig", pageConfig);
+        }
 
         return "people/index";
     }
@@ -72,10 +73,8 @@ public class PersonController {
         Optional<Person> personOptional = personService.show(id);
 
         if(personOptional.isEmpty()){
-            return "pageNotFound";
+            return "errors/404";
         }
-
-        model.addAttribute("person", personOptional.get());
 
         Page<Book> booksPage = bookService.show(id, pageNumber-1);
         List<Book> books = booksPage.getContent();
@@ -86,10 +85,14 @@ public class PersonController {
             }
         }
 
+        model.addAttribute("person", personOptional.get());
         model.addAttribute("books", books);
-        model.addAttribute("currentPage", pageNumber);
-        model.addAttribute("totalPages", booksPage.getTotalPages());
-        model.addAttribute("pagesList", getPageList(pageNumber, booksPage.getTotalPages()));
+
+        if(!(booksPage.getTotalPages() <= 1)){
+            PageConfig pageConfig = new PageConfig(pageNumber, booksPage.getTotalPages());
+            model.addAttribute("pageConfig", pageConfig);
+        }
+
 
         return "people/show";
     }
@@ -118,7 +121,7 @@ public class PersonController {
         Optional<Person> personOptional = personService.show(id);
 
         if(personOptional.isEmpty()){
-            return "pageNotFound";
+            return "errors/404";
         }
 
         model.addAttribute("person", personOptional.get());
@@ -144,7 +147,7 @@ public class PersonController {
 
     @GetMapping("/search")
     public String search(Model model,
-                         @RequestParam( required = false, name = "search_value") Object searchValue,
+                         @RequestParam( required = false, name = "search_value") String searchValue,
                          @RequestParam( required = false, name = "search_by") String searchProperty,
                          @RequestParam( required = false, name = "page", defaultValue = "1") Integer pageNumber )
     {
@@ -158,47 +161,13 @@ public class PersonController {
                 return "people/search";
             }
 
-            model.addAttribute("currentPage", pageNumber);
-            model.addAttribute("totalPages", peoplePage.getTotalPages());
-            model.addAttribute("pagesList", getPageList(pageNumber, peoplePage.getTotalPages()));
+            if(!(peoplePage.getTotalPages() <= 1)){
+                PageConfig pageConfig = new PageConfig(pageNumber, peoplePage.getTotalPages());
+                model.addAttribute("pageConfig", pageConfig);
+            }
+
         }
 
         return "people/search";
     }
-
-    private List<Integer> getPageList(int pageNumber, int totalPages){
-        List<Integer> pages = new ArrayList<>();
-
-        if(totalPages <= 9){
-            for (int i = 1; i <= totalPages; i++) {
-                pages.add(i);
-            }
-            return pages;
-        }
-        if(pageNumber == totalPages){
-            for (int i = totalPages - 8; i <= totalPages; i++) {
-                pages.add(i);
-            }
-            return pages;
-        }
-
-        int start = pageNumber - 4;
-        int end = pageNumber + 4;
-
-        if(pageNumber - 4 < 1){
-            start = 1;
-            end = 9;
-        }
-        if(pageNumber + 4 > totalPages){
-            end = totalPages;
-            start = start - (totalPages - pageNumber);
-        }
-
-        for (int i = start; i <= end; i++) {
-            pages.add(i);
-        }
-
-        return pages;
-    }
-
 }

@@ -14,7 +14,7 @@ import ru.karelin.project.services.EmployeeCredentialsService;
 import ru.karelin.project.services.EmployeeService;
 import ru.karelin.project.utility.EmployeeCredentialsValidator;
 import ru.karelin.project.utility.EmployeeValidator;
-import ru.karelin.project.utility.PageConfigurer;
+import ru.karelin.project.utility.PageConfig;
 
 import java.util.Optional;
 
@@ -40,9 +40,11 @@ public class AdminController {
     ){
         Page<Employee> employeePage = employeeService.findAll(pageNumber-1, 10);
 
-        model.addAttribute("currentPage", pageNumber);
-        model.addAttribute("totalPages", employeePage.getTotalPages());
-        model.addAttribute("pagesList", PageConfigurer.getPageList(pageNumber, employeePage.getTotalPages()));
+        if(!(employeePage.getTotalPages() <= 1)){
+            PageConfig pageConfig = new PageConfig(pageNumber, employeePage.getTotalPages());
+            model.addAttribute("pageConfig", pageConfig);
+        }
+
 
         model.addAttribute("employees", employeePage.getContent());
 

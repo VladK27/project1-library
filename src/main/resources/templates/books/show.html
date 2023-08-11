@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Book Information Page</title>
 </head>
@@ -38,7 +38,14 @@
     .book-owner {
         font-size: 16px;
         color: #555;
-        margin-top: 40px;
+        margin-bottom: 30px;
+    }
+
+    .owner-info{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100px;
     }
 
     .buttons {
@@ -85,14 +92,21 @@
     <p class="book-year">Year of Publication: <span th:text="${book.year}">year</span></p>
     <hr>
     <div class="book-owner">
-        <p th:if="${book.owner != null}">
-            Owner: <a th:text="${ownerName}" th:href="@{/people/{id}(id = ${ownerId})}">owner name</a>
-        </p>
+        <div class="owner-info" th:if="${book.owner != null}">
+            <p>Owner:<span><a th:text="${ownerName}" th:href="@{/people/{id}(id = ${ownerId})}">owner name</a></span></p>
+            <form th:method="PATCH" th:action="@{/books/control}" th:if="${book.owner != null}">
+                <input type="hidden" name="bookId" th:value="${book.id}">
+                <input type="hidden" name="personId" value="0">
+                <button class="edit-button">Return to library</button>
+            </form>
+        </div>
 
-        <p th:unless="${book.owner != null}">
-            Book in library
-        </p>
+        <div class="owner-info" th:unless="${book.owner != null}">
+        <div>Book in library</div>
+        <a th:href="@{/books/control?bookId={id}(id = ${book.id}) }"><button class="edit-button">Set new owner</button></a>
+        </div>
     </div>
+    <hr>
     <div class="buttons">
         <a th:href="@{{id}/edit?page={page}(id = ${book.id}, page = ${param.page}) }"><button class="edit-button">Edit</button></a>
         <form th:method="DELETE" th:action="@{#}">

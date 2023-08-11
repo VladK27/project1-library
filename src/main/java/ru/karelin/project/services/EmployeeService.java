@@ -1,6 +1,8 @@
 package ru.karelin.project.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.karelin.project.models.Employee;
@@ -24,6 +26,14 @@ public class EmployeeService {
 
     public Optional<Employee> findByPhoneNumber(String phoneNumber){
         return employeeRepository.findByPhoneNumber(phoneNumber);
+    }
+
+    public Page<Employee> findAll(Integer pageNumber, Integer itemsPerPage){
+        return employeeRepository.findAll(PageRequest.of(pageNumber, itemsPerPage));
+    }
+
+    public Optional<Employee> findById(Integer id){
+        return employeeRepository.findById(id);
     }
 
     @Transactional

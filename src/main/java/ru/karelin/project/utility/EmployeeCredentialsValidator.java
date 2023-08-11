@@ -47,7 +47,7 @@ public class EmployeeCredentialsValidator implements Validator {
         }
     }
 
-    public BindingResult validateAndGetBindingResult(EmployeeCredentials credentials){
+    public BindingResult validateUpdatedAndGetBindingResult(EmployeeCredentials credentials){
         BeanPropertyBindingResult errors = new BeanPropertyBindingResult(credentials, "credentials");
 
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -63,10 +63,17 @@ public class EmployeeCredentialsValidator implements Validator {
             }
         }
 
+        return errors;
+    }
+
+    public BindingResult validateNewAndGetBindingResult(EmployeeCredentials credentials){
+        BeanPropertyBindingResult errors = (BeanPropertyBindingResult) validateUpdatedAndGetBindingResult(credentials);
+
         if(employeeCredentialsService.findByUsername(credentials.getUsername()).isPresent()){
             errors.rejectValue("username", "", "This username already taken!");
         }
 
         return errors;
     }
+
 }

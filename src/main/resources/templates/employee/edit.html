@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        .registration-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .registration-form h2, h1 {
+            text-align: center;
+        }
+        .registration-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .registration-form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .registration-form input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .registration-form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .error-message{
+            padding-top: 13px;
+            border-radius: 7px;
+            height: 30px;
+            text-align: center;
+            color: darkred;
+            background: rgba(173,55,55,0.44);
+            margin-bottom: 10px;
+        }
+        input{
+            font-weight: bolder;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="registration-form">
+    <h1>Registration form</h1>
+    <hr>
+    <form th:action="@{/employee/edit}" th:method="POST" th:object="${employee}">
+        <h2>Credentials</h2>
+
+        <input type="hidden" th:value="${employee.id}" th:field="*{id}" name="id">
+        <label for="password">Old password:</label>
+        <input placeholder="REQUIRED" type="password" id="password" name="password" required>
+        <div th:if="${oldPasswordError}" th:text="${oldPasswordError}" class="error-message"> error message</div>
+
+        <label for="new-password">New password:</label>
+        <input placeholder="IF REQUIRED" type="password" id="new-password" name="new_password">
+        <div th:if="${errorsCredentials} != null and ${errorsCredentials.getFieldError('password')} != null" th:text="${errorsCredentials.getFieldError('password').getDefaultMessage()}" class="error-message"> error message</div>
+
+        <h2>Personal Info</h2>
+
+        <label for="name">First Name:</label>
+        <input th:value="${employee.surname}" th:field="*{name}" type="text" id="name" name="name" required>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"> error message</div>
+
+        <label for="surname">Last Name:</label>
+        <input th:value="${employee.surname}" th:field="*{surname}" type="text" id="surname" name="surname" required>
+        <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" class="error-message"> error message</div>
+
+        <label for="yearOfBirth">Year of Birth:</label>
+        <input th:value="${employee.yearOfBirth}" th:field="*{yearOfBirth}" type="number" id="yearOfBirth" name="yearOfBirth" required>
+        <div th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}" class="error-message"> error
+            message
+        </div>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input th:value="${employee.phoneNumber}" th:field="*{phoneNumber}" type="tel" id="phoneNumber" name="phoneNumber" required>
+        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error-message"> error
+            message
+        </div>
+
+        <label for="email">Email:</label>
+        <input th:value="${employee.email}" th:field="*{email}" type="email" id="email" name="email" required>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"> error message</div>
+
+        <p></p>
+        <input type="submit" value="Submit">
+
+    </form>
+</div>
+</body>
+</html>

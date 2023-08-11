@@ -34,8 +34,7 @@
         .book{
             height: 45px;
             width: 400px;
-            margin: 0 auto;
-            margin-bottom: 20px;
+            margin: 0 auto 20px;
             box-shadow: rgba(0,0,0,0.44) 0 0 7px;
 
         }
@@ -49,6 +48,10 @@
         }
         .book-info, .book{
             border-radius: 4px;
+        }
+
+        .book a {
+            text-decoration-line: none;
         }
 
         .buttons {
@@ -109,16 +112,21 @@
         <a href="/employee/profile"><button class="nav-top-buttons">To main page</button></a>
     </div>
 
-    <div class="user">
+    <div class="user" th:unless="${person.id == 0}">
         <h4>Reader's info:</h4>
         <p>Name: <span class="name" th:text="${person.name}">name</span></p>
         <p>Surname: <span class="surname" th:text="${person.surname}">surname</span></p>
         <p>Year of birth: <span class="year-of-birth" th:text="${person.yearOfBirth}">year of birth</span></p>
     </div>
 
+    <div th:if="${person.id == 0}">
+        <h4>Library storage</h4>
+    </div>
+
     <hr>
-    <h4>Books:</h4>
+
     <div class="books" th:if="!${books.isEmpty()}">
+        <h4>Books:</h4>
         <div class="book" th:each="book : ${books}" >
             <div class="book-info" th:if="${book.isOverdue}" style="background: rgba(173,55,55,0.43)">
                 <a th:href="@{/books/{id}(id = ${book.id}) }" th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
@@ -131,19 +139,23 @@
     </div>
 
     <p th:unless="!${books.isEmpty()}">Reader has no books</p>
-    <hr>
 
-    <nav class="pages">
-        <div th:if="${pagesList.get(0)} != 1"><a th:href="@{/people/{id}?page=1(id = ${person.id})}">1</a>...</div>
-        <div th:each="i : ${pagesList}">
-            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{/people/{id}?page={i}(i = ${i}, id = ${person.id}) }">page number</a>
-            <div th:unless="${i} != ${currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">
+    <nav class="pages"  th:if="${pageConfig} != null">
+        <div th:if="${pageConfig.pages.get(0)} != 1"><a th:href="@{/people/{id}?page=1(id = ${person.id})}">1</a>...</div>
+        <div th:each="i : ${pageConfig.pages}">
+            <a th:if="${i} != ${pageConfig.currentPage}" th:text="${i}" th:href="@{/people/{id}?page={i}(i = ${i}, id = ${person.id}) }">page number</a>
+            <div th:unless="${i} != ${pageConfig.currentPage}" style="font-size:21px;font-weight: bolder; text-decoration-line: underline">
                 |<a th:text="${i}" th:href="@{/people/{id}?page={i}(i = ${i}, id = ${person.id}) }">page number</a>|
             </div>
         </div>
-        <div th:if="${pagesList.get(pagesList.size()-1) != totalPages}">...
-            <a th:href="@{/people/{id}?page={last}(id = ${person.id}, last = ${totalPages}) }" th:text="${totalPages}"></a></div>
+        <div th:if="${pageConfig.pages.get(pageConfig.pages.size()-1) != pageConfig.totalPages}">...
+            <a th:href="@{/people/{id}?page={last}(id = ${person.id}, last = ${pageConfig.totalPages}) }" th:text="${pageConfig.totalPages}"></a></div>
     </nav>
+    <hr>
+
+    <div th:unless="${person.id == 0}">
+        <a th:href="@{/books/control?personId={id}(id = ${person.id}) }"><button class="edit-button">Add new book</button></a>
+    </div>
 
     <div class="buttons">
         <a th:href="@{{id}/edit?page={page}(id = ${person.id}, page = ${param.page}) }"><button class="edit-button">Edit</button></a>

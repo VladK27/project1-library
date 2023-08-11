@@ -83,6 +83,15 @@
         margin-top: 20px;
         font-family: "Arial", sans-serif;
     }
+
+    .error-message{
+        padding: 13px;
+        border-radius: 7px;
+        text-align: center;
+        color: darkred;
+        background: rgba(173,55,55,0.44);
+        margin-bottom: 10px;
+    }
 </style>
 <body>
 <div class="main">
@@ -107,18 +116,18 @@
         </div>
     </div>
 
-    <nav class="pages">
-        <div th:if="${pagesList.get(0)} != 1"><a href="/people?page=1">1</a>...</div>
-        <div th:each="i : ${pagesList}">
-            <a th:if="${i} != ${currentPage}" th:text="${i}" th:href="@{people?page={i}(i = ${i}) }">page number</a>
-            <div th:unless="${i} != ${currentPage}"
-                 style="font-size:21px;font-weight: bolder; text-decoration-line: underline">|<a th:text="${i}"
-                                                                                                 th:href="@{people?page={i}(i = ${i}) }">page
-                number</a>|
+    <div class="error-message" th:if="${people.isEmpty()}">No readers found</div>
+
+    <nav class="pages"  th:if="${pageConfig} != null">
+        <div th:if="${pageConfig.pages.get(0)} != 1"><a href="/people?page=1">1</a>...</div>
+        <div th:each="i : ${pageConfig.pages}">
+            <a th:if="${i} != ${pageConfig.currentPage}" th:text="${i}" th:href="@{people?page={i}(i = ${i}) }">page number</a>
+            <div th:unless="${i} != ${pageConfig.currentPage}"
+                 style="font-size:21px;font-weight: bolder; text-decoration-line: underline">|<a th:text="${i}" th:href="@{people?page={i}(i = ${i}) }">page number</a>|
             </div>
         </div>
-        <div th:if="${pagesList.get(pagesList.size()-1) != totalPages}">...<a
-                th:href="@{people?page={last}(last = ${totalPages}) }" th:text="${totalPages}"></a></div>
+        <div th:if="${pageConfig.pages.get(pageConfig.pages.size()-1) != pageConfig.totalPages}">...<a
+                th:href="@{people?page={last}(last = ${pageConfig.totalPages}) }" th:text="${pageConfig.totalPages}"></a></div>
     </nav>
 </div>
 </body>

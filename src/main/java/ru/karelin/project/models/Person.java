@@ -57,6 +57,12 @@ public class Person {
         this.yearOfBirth = yearOfBirth;
     }
 
+    public Person(Integer id, String name, String surname){
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+    }
+
     public String getFullName(){
         return name + " " + surname;
     }

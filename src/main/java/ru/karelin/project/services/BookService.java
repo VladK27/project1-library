@@ -12,7 +12,6 @@ import ru.karelin.project.models.Book;
 import ru.karelin.project.models.Person;
 import ru.karelin.project.repositories.BooksRepository;
 
-import java.awt.print.Pageable;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -69,7 +68,7 @@ public class BookService {
         return booksRepository.findByOwner(personProxy);
     }
 
-    public Page<Book> show(int ownerId, int pageNumber){
+    public Page<Book> show(Integer ownerId, int pageNumber){
         if(ownerId == 0){
             return booksRepository.findAllByOwner(null, PageRequest.of(pageNumber, 10));
         }
@@ -79,22 +78,22 @@ public class BookService {
         return booksRepository.findAllByOwner(ownerProxy, PageRequest.of(pageNumber, 10));
     }
 
-    @Transactional(readOnly = false)
+    @Transactional()
     public void save(Book book){
         booksRepository.save(book);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional()
     public void edit(Book updatedBook){
         booksRepository.save(updatedBook);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional()
     public void delete(int id){
         booksRepository.deleteById(id);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional()
     public void setOwner(int bookId, int personId){
         Session session = entityManager.unwrap(Session.class);
 
@@ -111,35 +110,27 @@ public class BookService {
         book.setOwner(reader);
     }
 
-    public Page<Book> find(String searchProperty, Object searchValue, Integer pageNumber) {
+    public Page<Book> find(String searchProperty, String searchValue, Integer pageNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber, 10);
 
         switch (searchProperty) {
             case "title" -> {
-                return booksRepository.findAllByTitleStartingWith((String) searchValue, pageRequest);
+                return booksRepository.findAllByTitleStartingWith(searchValue, pageRequest);
             }
             case "author" -> {
-                return booksRepository.findAllByAuthorStartingWith((String) searchValue, pageRequest);
+                return booksRepository.findAllByAuthorStartingWith(searchValue, pageRequest);
             }
             case "year" -> {
-                return booksRepository.findAllByYear((Integer) searchValue, pageRequest);
+                try{
+                    return booksRepository.findAllByYear(Integer.valueOf(searchValue), pageRequest);
+                }
+                catch (NumberFormatException e){
+                    return Page.empty();
+                }
             }
             default -> {
-                return null;
+                return Page.empty();
             }
-        }
-    }
-
-    @Transactional(readOnly = false)
-    public void add1000Books(){
-        Session session = this.entityManager.unwrap(Session.class);
-
-        for (int i = 0; i < 1000; i++) {
-            Book book = new Book();
-            book.setTitle("book" + (i+1));
-            book.setAuthor("Test Author");
-            book.setYear(1984);
-            session.persist(book);
         }
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.karelin.project.models.Employee;
 import ru.karelin.project.models.EmployeeCredentials;
 import ru.karelin.project.repositories.EmployeeCredentialsRepository;
-import ru.karelin.project.repositories.EmployeeRepository;
 
 import java.util.Optional;
 
@@ -34,7 +33,7 @@ public class EmployeeCredentialsService {
         return employeeCredentialsRepository.findByUsername(username);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional()
     public EmployeeCredentials save(EmployeeCredentials employeeCredentials){
         String encodedPassword = passwordEncoder.encode(employeeCredentials.getPassword());
         employeeCredentials.setPassword(encodedPassword);
@@ -73,5 +72,17 @@ public class EmployeeCredentialsService {
         }
 
         return credentialsOptional;
+    }
+
+    @Transactional
+    public void update(EmployeeCredentials newCredentials){
+        Session session = entityManager.unwrap(Session.class);
+
+        EmployeeCredentials oldCredentials =
+                employeeCredentialsRepository.findByUsername(newCredentials.getUsername()).get();
+
+        session.persist(oldCredentials);
+        oldCredentials.setUsername(newCredentials.getUsername());
+        oldCredentials.setPassword(passwordEncoder.encode(newCredentials.getPassword()));
     }
 }

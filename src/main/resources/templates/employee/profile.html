@@ -19,7 +19,6 @@
             height: 100% ;
         }
 
-        /* Dropdown button style */
         .dropdown-button {
             background-color: #007bff;
             color: #ffffff;
@@ -27,11 +26,9 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            border-left:1px solid gray;
         }
 
-        /* Dropdown content (hidden by default) */
-
-        /* Links inside the dropdown content */
         .dropdown-content a {
             color: #333;
             padding: 12px 16px;
@@ -39,12 +36,10 @@
             display: block;
         }
 
-        /* Change color of links on hover */
         .dropdown-content a:hover {
             background-color: #ddd;
         }
 
-        /* Show the dropdown content on hover */
         .dropdown:hover .dropdown-content {
             display: block;
         }
@@ -75,11 +70,6 @@
 
         .header .header-buttons button:hover {
             background-color:#025cbd;
-        }
-
-        #readers-button{
-            border-left:1px solid gray;
-            border-right:1px solid gray;
         }
 
         .dropdown-content {
@@ -143,6 +133,16 @@
             background-color: #dc3545;
         }
 
+        .edit-button{
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 30px;
+        }
     </style>
 </head>
 
@@ -164,6 +164,10 @@
             </div>
         </div>
         <a href="/books/control"><button class="dropdown-button">Manage</button></a>
+        <a href="/people/0"><button class="dropdown-button">Library storage</button></a>
+        <a th:if="${role} eq 'ADMIN'" href="/admin/employees">
+            <button class="dropdown-button">Admin panel</button>
+        </a>
     </div>
     <form th:method="POST" th:action="@{/auth/logout}">
         <a><button class="logout-button">Logout</button></a>
@@ -195,6 +199,9 @@
         <span>Role:</span>
         <div th:text="${role}"></div>
     </div>
+
+    <p></p>
+    <a href="/employee/edit"><button class="edit-button">Edit personal information</button></a>
 </div>
 </body>
 
