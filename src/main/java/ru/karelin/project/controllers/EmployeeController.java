@@ -46,7 +46,7 @@ public class EmployeeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if(authentication.getPrincipal() instanceof String
-                && ((String) authentication.getPrincipal()).equals("anonymousUser") ){
+                && authentication.getPrincipal().equals("anonymousUser") ){
             return "errors/403";
         }
 
@@ -69,7 +69,7 @@ public class EmployeeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if(authentication.getPrincipal() instanceof String
-                && ((String) authentication.getPrincipal()).equals("anonymousUser") ){
+                && authentication.getPrincipal().equals("anonymousUser") ){
             return "errors/403";
         }
 

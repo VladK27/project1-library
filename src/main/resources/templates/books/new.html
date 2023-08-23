@@ -3,80 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>New book</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0f0f0;
-        }
-        .edition-form {
-            margin-top: 30px;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 350px;
-        }
-        .edition-form h2, h1 {
-            text-align: center;
-        }
-        .edition-form label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .edition-form input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-        .edition-form input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .edition-form input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        .error{
-            padding-top: 13px;
-            border-radius: 7px;
-            height: 30px;
-            text-align: center;
-            color: darkred;
-            background: rgba(173,55,55,0.44);
-            margin-bottom: 10px;
-        }
-        .nav-top-buttons{
-            padding: 5px;
-            width: 100%;
-            font-size: 16px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 30px;
-        }
-        #top{
-            justify-content: space-between;
-            margin-bottom: 40px;
-            margin-top: 0;
-        }
-        .buttons {
-            display:flex;
-            margin-top: 30px;
-        }
-        .buttons button:hover{
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../../static/css/books-readers/edit-new.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/error-message.css">
+
 </head>
 <body>
 <div class="edition-form">
@@ -89,15 +18,15 @@
 
         <label for="title">Title</label>
         <input type="text" id="title" name="title" th:value="${book.title}">
-        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">message</div>
+        <div class="error-message" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">message</div>
 
         <label for="author">Author</label>
         <input type="text" id="author" name="author" th:value="${book.author}">
-        <div class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">message</div>
+        <div class="error-message" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">message</div>
 
         <label for="year">Year</label>
         <input type="text" id="year" name="year" th:value="${book.year}">
-        <div class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">message</div>
+        <div class="error-message" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">message</div>
 
         <p></p>
         <input type="submit" value="Submit">

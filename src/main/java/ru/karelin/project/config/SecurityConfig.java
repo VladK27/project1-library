@@ -48,9 +48,9 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .requestMatchers("/", "/auth/**").permitAll()
+                                .requestMatchers("/", "/auth/**", "/static/css/**").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                                 .anyRequest().hasAnyRole("ADMIN", "MANAGER")
+                                .anyRequest().hasAnyRole("ADMIN", "MANAGER")
                 )
                 .logout((logout) ->
                         logout

@@ -2,87 +2,37 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Book Information Page</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/books-readers/show.css">
+
 </head>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 20px;
-    }
-
-    .book-info {
-        max-width: 400px;
-        margin: 0 auto;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 20px;
-        box-shadow: rgba(0,0,0,0.44) 0 0 7px;
-    }
-
     .book-title {
         font-size: 24px;
         font-weight: bold;
         margin-top: 20px;
     }
-
     .book-author {
         font-size: 16px;
         color: #555;
     }
-
     .book-year {
         font-size: 16px;
         color: #555;
     }
-
     .book-owner {
         font-size: 16px;
         color: #555;
         margin-bottom: 30px;
     }
-
     .owner-info{
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         height: 100px;
     }
-
-    .buttons {
-        display:flex;
-        margin-top: 30px;
-    }
-
-    .edit-button,
-    .delete-button,
-    .nav-top-buttons{
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #007BFF;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-right: 30px;
-    }
-
-    .delete-button {
-        background-color: #dc3545;
-    }
-
-    #top{
-        justify-content: space-between;
-        margin-bottom: 40px;
-        margin-top: 0;
-    }
-
-    #top button{
-        background-color: #007BFF;
-    }
-
 </style>
 <body>
-<div class="book-info">
+<div class="item-info">
     <div class="buttons" id="top">
         <a th:href="@{/books?page={page}(page = ${param.page}) }"><button class="nav-top-buttons"><- To books list page</button></a>
         <a href="/employee/profile"><button class="nav-top-buttons">To main page</button></a>

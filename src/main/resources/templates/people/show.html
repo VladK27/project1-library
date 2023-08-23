@@ -3,34 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${person.getFullName()}"></title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            font-size: 16px;
-        }
-        .user-info {
-            max-width: 400px;
-            margin: 0 auto;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 20px;
-            box-shadow: rgba(0,0,0,0.44) 0 0 7px;
+    <link rel="stylesheet" type="text/css" href="../../static/css/pages-block.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/books-readers/show.css">
 
-        }
+    <style>
         .user p span{
             font-weight: bold;
         }
         .user p{
             font-weight: normal;
         }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-
         .book{
             height: 45px;
             width: 400px;
@@ -49,64 +31,14 @@
         .book-info, .book{
             border-radius: 4px;
         }
-
         .book a {
             text-decoration-line: none;
-        }
-
-        .buttons {
-            display:flex;
-            margin-top: 30px;
-        }
-
-        .edit-button,
-        .delete-button,
-        .nav-top-buttons{
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 30px;
-        }
-
-        .delete-button {
-            background-color: #dc3545;
-        }
-
-        #top{
-            justify-content: space-between;
-            margin-bottom: 40px;
-            margin-top: 0;
-        }
-
-        #top button{
-            background-color: #007BFF;
-        }
-        .pages {
-            height: 30px;
-            width: 400px;
-            display: flex;
-            flex-direction: row;
-            padding: 5px;
-            margin-top: 10px;
-            font-family: "Arial", sans-serif;
-        }
-
-        .pages a {
-            color: #151c2c;
-            font-size: 19px;
-            margin-left: 5px;
-            margin-right: 5px;
-            text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-<div class="user-info">
+<div class="item-info">
     <div class="buttons" id="top">
         <a href="/people"><button class="nav-top-buttons"><- To readers list page</button></a>
         <a href="/employee/profile"><button class="nav-top-buttons">To main page</button></a>

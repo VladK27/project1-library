@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown button{
+    height: 100% ;
+}
+.dropdown-button {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    border-left:1px solid gray;
+}
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.header {
+    background-color: #007bff;
+    padding: 0;
+    height: 60px;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header .header-buttons{
+    height: 100%;
+    width: 500px;
+    display: flex;
+}
+.dropdown-button{
+    height: 100%;
+}
+.header .header-buttons button {
+    border-radius: 0;
+    width: 100px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.header .header-buttons button:hover {
+    background-color: #025cbd;
+}
+.dropdown-content {
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    display: none;
+}
+.profile-block {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.profile-info {
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.profile-info span {
+    font-weight: bold;
+}
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.logout-button:hover {
+    background-color: #dc3545;
+}
+.edit-button,
+.logout-button{
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 30px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.logout-button {
+    background-color: #df5764;
+}

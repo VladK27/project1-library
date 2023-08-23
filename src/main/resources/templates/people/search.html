@@ -3,143 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Search</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/pages-block.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/error-message.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/books-readers/search.css">
+
 </head>
-<style>
-    body {
-        display: flex;
-        justify-content: center;
-    }
-
-    .pages a {
-        color: #151c2c;
-        font-size: 19px;
-        margin-left: 5px;
-        margin-right: 5px;
-        text-decoration: none;
-    }
-
-    .search-form{
-        display: flex;
-        width: 100%;
-        height: 40px;
-        justify-content: space-between;
-    }
-    .search-form input{
-        border-radius: 20px;
-        border: none;
-        box-shadow: #cccccc 0 0 10px;
-        text-align: center;
-    }
-    .search-form label{
-        font-family: "Arial", sans-serif;
-    }
-
-    .main {
-        width: 500px;
-        border-radius: 5px;
-        padding: 0 30px 30px;
-        background-color: #ffffff;
-        box-shadow: gray 0 0 7px;
-    }
-
-    .reader {
-        width: 400px;
-        height: 30px;
-        margin-bottom: 20px;
-        margin-left: 15px;
-        padding-left: 15px;
-        border-radius: 7px;
-        box-shadow: gray 0 0 7px;
-    }
-
-    .reader-info {
-        font-size: 19px;
-        font-weight: bolder;
-    }
-
-    .reader a {
-        text-decoration-line: none;
-    }
-
-    button {
-        background-color: #007BFF;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    select {
-        width: 130px;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: #f9f9f9;
-        cursor: pointer;
-    }
-
-    select::-ms-expand {
-        display: none;
-    }
-
-    select::after {
-        content: "\25BC";
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-    }
-    .nav-top{
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        padding-top: 20px;
-    }
-    .custom-heading {
-        font-size: 24px;
-        font-weight: bold;
-        color: black;
-        text-align: center;
-        margin-top: 20px;
-        font-family: "Arial", sans-serif;
-    }
-
-    .pages {
-        height: 30px;
-        width: 400px;
-        display: flex;
-        flex-direction: row;
-        padding: 5px;
-        margin-top: 10px;
-        font-family: "Arial", sans-serif;
-    }
-
-    .pages a {
-        color: #151c2c;
-        font-size: 19px;
-        margin-left: 5px;
-        margin-right: 5px;
-        text-decoration: none;
-    }
-
-    .error-message{
-        padding: 13px;
-        border-radius: 7px;
-        text-align: center;
-        color: darkred;
-        background: rgba(173,55,55,0.44);
-        margin-bottom: 10px;
-    }
-
-</style>
 <body>
 <div class="main">
     <div class="nav-top">
@@ -165,8 +33,8 @@
     <div th:if="${people} != null">
         <div  class="error-message" th:if="${people.isEmpty()}">Readers not found</div>
         <div th:unless="${people.isEmpty()}">
-            <div class="reader" th:each="person : ${people}">
-                <a class="reader-info" th:href="@{/people/{id}(id = ${person.id}) }" th:text="${person.getFullName() + ', ' + person.yearOfBirth}">name</a>
+            <div class="item" th:each="person : ${people}">
+                <a class="item-info" th:href="@{/people/{id}(id = ${person.id}) }" th:text="${person.getFullName() + ', ' + person.yearOfBirth}">name</a>
                 <br>
             </div>
         </div>

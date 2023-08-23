@@ -3,41 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Readers</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/pages-block.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/error-message.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/books-readers/index.css">
+
 </head>
 <style>
-    body {
-        display: flex;
-        justify-content: center;
-    }
-
-    .pages {
-        height: 30px;
-        width: 400px;
-        display: flex;
-        flex-direction: row;
-        padding: 5px;
-        margin-top: 10px;
-        font-family: "Arial", sans-serif;
-    }
-
-    .pages a {
-        color: #151c2c;
-        font-size: 19px;
-        margin-left: 5px;
-        margin-right: 5px;
-        text-decoration: none;
-    }
-
-    .main {
-        width: 500px;
-        border-radius: 5px;
-        padding: 30px;
-        padding-top: 0;
-        background-color: #ffffff;
-        box-shadow: gray 0 0 7px;
-    }
-
-    .reader {
+    .item {
         width: 400px;
         height: 30px;
         padding-top: 10px;
@@ -48,49 +20,6 @@
         box-shadow: gray 0 0 5px;
         font-size: 19px;
         font-family: "Arial", sans-serif;
-    }
-
-    .reader a {
-        text-decoration-line: none;
-    }
-
-    button {
-        background-color: #007BFF;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    .nav-top {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        padding-top: 20px;
-    }
-
-    .custom-heading {
-        font-size: 24px;
-        font-weight: bold;
-        color: black;
-        text-align: center;
-        margin-top: 20px;
-        font-family: "Arial", sans-serif;
-    }
-
-    .error-message{
-        padding: 13px;
-        border-radius: 7px;
-        text-align: center;
-        color: darkred;
-        background: rgba(173,55,55,0.44);
-        margin-bottom: 10px;
     }
 </style>
 <body>
@@ -109,8 +38,8 @@
 
     <hr style="width: 480px; margin-top: 30px; margin-bottom: 20px">
     <div class="readers">
-        <div class="reader" th:each="reader : ${people}">
-            <a class="reader-info" th:href="@{/people/{id}(id = ${reader.id}) }"
+        <div class="item" th:each="reader : ${people}">
+            <a class="item-info" th:href="@{/people/{id}(id = ${reader.id}) }"
                th:text="${reader.getFullName() + ', ' + reader.yearOfBirth}">Name</a>
             <br>
         </div>

@@ -1,0 +1,17 @@
+.pages {
+    height: 30px;
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    margin-top: 10px;
+    font-family: "Arial", sans-serif;
+}
+
+.pages a {
+    color: #151c2c;
+    font-size: 19px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-decoration: none;
+}

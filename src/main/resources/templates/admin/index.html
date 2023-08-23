@@ -3,97 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Employees</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/pages-block.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/error-message.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/admin-employee/admin-index.css">
+
 </head>
-<style>
-    body {
-        display: flex;
-        justify-content: center;
-    }
-
-    .pages {
-        height: 30px;
-        width: 400px;
-        display: flex;
-        flex-direction: row;
-        padding: 5px;
-        margin-top: 10px;
-        font-family: "Arial", sans-serif;
-    }
-
-    .pages a {
-        color: #151c2c;
-        font-size: 19px;
-        margin-left: 5px;
-        margin-right: 5px;
-        text-decoration: none;
-    }
-
-    .main {
-        width: 500px;
-        border-radius: 5px;
-        padding: 30px;
-        padding-top: 0;
-        background-color: #ffffff;
-        box-shadow: gray 0 0 7px;
-    }
-
-    .employee {
-        width: 400px;
-        height: 50px;
-        padding-top: 10px;
-        margin-bottom: 20px;
-        margin-left: 15px;
-        padding-left: 15px;
-        border-radius: 5px;
-        box-shadow: gray 0 0 5px;
-        font-size: 18px;
-        font-family: "Arial", sans-serif;
-        color: black;
-    }
-
-    .employee a {
-        text-decoration-line: none;
-    }
-
-    button {
-        background-color: #007BFF;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    .nav-top {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        padding-top: 20px;
-    }
-
-    .custom-heading {
-        font-size: 24px;
-        font-weight: bold;
-        color: black;
-        text-align: center;
-        margin-top: 20px;
-        font-family: "Arial", sans-serif;
-    }
-
-    .employee-info-value{
-        font-weight: bold;
-        color: #0056b3;
-    }
-
-    #username{
-        color: black;
-    }
-</style>
 <body>
 <div class="main">
 
@@ -110,7 +24,7 @@
 
     <hr style="width: 480px; margin-top: 30px; margin-bottom: 20px">
 
-    <div class="employees">
+    <div class="employees" th:if="!${employees.isEmpty()}">
         <div class="employee" th:each="employee : ${employees}">
             <a class="employee-info" th:href="@{/admin/employees/{id}(id = ${employee.id}) }">
                 <div class="employee-info-value" th:text="${employee.getFullName()}">name surname</div>
@@ -118,6 +32,8 @@
             </a>
         </div>
     </div>
+
+    <div class="error-message" th:if="${employees.isEmpty()}">No employees present</div>
 
     <nav class="pages" th:if="${pageConfig} != null">
         <div th:if="${pageConfig.pages.get(0)} != 1"><a href="/admin/employees?page=1">1</a>...</div>

@@ -3,134 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Books</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/pages-block.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/error-message.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/books-readers/index.css">
+
 </head>
-<style>
-    body {
-        display: flex;
-        justify-content: center;
-    }
-
-    .pages {
-        height: 30px;
-        width: 400px;
-        display: flex;
-        flex-direction: row;
-        padding: 5px;
-        margin-top: 10px;
-        font-family: "Arial", sans-serif;
-    }
-
-    .pages a {
-        color: #151c2c;
-        font-size: 19px;
-        margin-left: 5px;
-        margin-right: 5px;
-        text-decoration: none;
-    }
-
-    .title_sort {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    .title_sort label{
-        font-family: "Arial", sans-serif;
-    }
-    .title_sort button{
-        margin-top: 2px;
-    }
-
-    .main {
-        width: 500px;
-        border-radius: 5px;
-        padding: 30px;
-        padding-top: 0;
-        background-color: #ffffff;
-        box-shadow: gray 0 0 7px;
-    }
-
-    .book {
-        width: 400px;
-        height: 70px;
-        margin-bottom: 20px;
-        margin-left: 15px;
-        padding-left: 15px;
-        border-radius: 7px;
-        box-shadow: gray 0 0 7px;
-    }
-
-    .book-info {
-        font-size: 19px;
-        font-weight: bolder;
-    }
-
-    .book a {
-        text-decoration-line: none;
-    }
-
-    button {
-        background-color: #007BFF;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    select {
-        width: 130px;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: #f9f9f9;
-        cursor: pointer;
-    }
-
-    select::-ms-expand {
-        display: none;
-    }
-
-    select::after {
-        content: "\25BC";
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-    }
-    .nav-top{
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        padding-top: 20px;
-    }
-    .custom-heading {
-        font-size: 24px;
-        font-weight: bold;
-        color: black;
-        text-align: center;
-        margin-top: 20px;
-        font-family: "Arial", sans-serif;
-    }
-    .owner-info{
-        position: relative;
-        bottom: -22px;
-    }
-    .error-message{
-        padding: 13px;
-        border-radius: 7px;
-        text-align: center;
-        color: darkred;
-        background: rgba(173,55,55,0.44);
-        margin-bottom: 10px;
-    }
-</style>
 <body>
 <div class="main">
 
@@ -144,7 +21,7 @@
     </div>
 
     <h4 class="custom-heading">Books</h4>
-    <div class="title_sort">
+    <div class="title-sort">
         <form action="/books">
             <label for="sort">Sort by:</label>
             <select id="sort" name="sort_by">
@@ -160,8 +37,8 @@
 
     <hr style="width: 480px; margin-top: 30px; margin-bottom: 20px">
     <div class="books">
-        <div class="book" th:each="book : ${books}">
-            <a class="book-info" th:href="@{/books/{id}(id = ${book.id}) }"
+        <div class="item" th:each="book : ${books}">
+            <a class="item-info" th:href="@{/books/{id}(id = ${book.id}) }"
                th:text="${book.title} + '; ' + ${book.author} + ';  ' + ${book.year}">title</a>
             <br>
             <div class="owner-info" th:if="${book.hasOwner()}">
