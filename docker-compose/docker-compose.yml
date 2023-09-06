@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: vlad2747
+      MYSQL_DATABASE: library_db
+    volumes:
+      - library_data:/var/lib/mysql
+
+  adminer:
+    restart: always
+    image: adminer
+    ports:
+      - "8000:8080"
+
+  java-api:
+    restart: always
+    build: ../
+    ports:
+      - "5000:5000"  
+
+volumes:
+  library_data:
