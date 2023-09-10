@@ -1,4 +1,4 @@
-package ru.karelin.project.utility;
+package ru.karelin.project.validators;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

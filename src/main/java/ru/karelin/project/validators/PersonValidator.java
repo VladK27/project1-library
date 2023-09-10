@@ -1,4 +1,4 @@
-package ru.karelin.project.utility;
+package ru.karelin.project.validators;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

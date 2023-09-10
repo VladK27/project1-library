@@ -17,8 +17,8 @@ import ru.karelin.project.models.EmployeeCredentials;
 import ru.karelin.project.security.EmployeeDetails;
 import ru.karelin.project.services.EmployeeCredentialsService;
 import ru.karelin.project.services.EmployeeService;
-import ru.karelin.project.utility.EmployeeCredentialsValidator;
-import ru.karelin.project.utility.EmployeeValidator;
+import ru.karelin.project.validators.EmployeeCredentialsValidator;
+import ru.karelin.project.validators.EmployeeValidator;
 
 import java.util.Optional;
 

@@ -11,7 +11,7 @@ import ru.karelin.project.models.Book;
 import ru.karelin.project.models.Person;
 import ru.karelin.project.services.BookService;
 import ru.karelin.project.services.PersonService;
-import ru.karelin.project.utility.BookValidator;
+import ru.karelin.project.validators.BookValidator;
 import ru.karelin.project.utility.PageConfig;
 
 import java.util.List;

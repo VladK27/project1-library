@@ -12,7 +12,7 @@ import ru.karelin.project.models.Person;
 import ru.karelin.project.services.BookService;
 import ru.karelin.project.services.PersonService;
 import ru.karelin.project.utility.PageConfig;
-import ru.karelin.project.utility.PersonValidator;
+import ru.karelin.project.validators.PersonValidator;
 
 import java.util.List;
 import java.util.Optional;
