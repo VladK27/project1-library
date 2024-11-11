@@ -30,7 +30,7 @@ public class EmployeeValidator implements Validator {
         Optional<Employee> employeeFoundByEmail = employeeService.findByEmail(employee.getEmail());
         Optional<Employee> employeeFoundByPhoneNumber = employeeService.findByPhoneNumber(employee.getPhoneNumber());
 
-       if(employee.getId() == 0){//is target is a new employee?(id == default value)
+       if(employee.getId() == null){//is target is a new employee?(id == default value)
            if(employeeFoundByEmail.isPresent()){
                errors.rejectValue("email","", "This email is already taken!");
            }

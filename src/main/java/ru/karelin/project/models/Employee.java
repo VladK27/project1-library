@@ -20,7 +20,7 @@ public class Employee {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     @Size(min=2, max=100, message = "Name must has from 2 to 100 length")

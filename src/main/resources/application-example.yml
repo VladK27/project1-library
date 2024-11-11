@@ -1,0 +1,39 @@
+users:
+  default-admin:
+    info:
+      name: ""
+      surname: ""
+      email: ""
+      yearOfBirth:
+      phoneNumber: ""
+    credentials:
+      password: ""
+      username: ""
+
+server:
+  error:
+    path: /error
+
+spring:
+  datasource:
+    password: ""
+    url: ""
+    username: ""
+  jpa:
+    hibernate:
+      ddl-auto:
+    properties:
+      hibernate:
+        jdbc:
+          batch_size:
+        dialect:
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+    static-path-pattern: /static/**
+
+  web:
+    resources:
+      add-mappings: true
